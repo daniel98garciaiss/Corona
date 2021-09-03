@@ -1,0 +1,5 @@
+Message,Alert
+E100,Medical Alarm
+R100,Medical Alarm Restored
+E110,Fire Alarm
+R110,Fire Alarm Restored

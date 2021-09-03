@@ -1,0 +1,398 @@
+[OBJTYPE]
+EXTERNAL_SYSTEMS				|External Systems      |                              |
+OPC_SERVER						|OPC Server   	   	   |                              |
+MODBUS_MODULE					|Modbus   	   		   |                              |
+GENERIC_DOOR 					|Door                  |                              |
+GENERIC_INPUT					|Input                 |                              |
+GENERIC_OUTPUT					|Ouput                 |                              |
+GENERIC_RELAY					|Relay                 |                              |
+GENERIC_SENSOR					|Sensor                |                              |
+GENERIC_SMOKE					|Smoke detector        |                              |
+GENERIC_FIRE					|Fire detector         |                              |
+GENERIC_INTRU					|Intrusion detector    |                              |
+GENERIC_AREA					|Area    			   |                              |
+GENERIC_DOOR_MO 				|Door                  |                              |
+GENERIC_INPUT_MO				|Input                 |                              |
+GENERIC_OUT_MO					|Ouput                 |                              |
+GENERIC_RELAY_MO				|Relay                 |                              |
+GENERIC_SEN_MO					|Sensor                |                              |
+GENERIC_SMOKE_MO				|Smoke detector        |                              |
+GENERIC_FIRE_MO				 	|Fire detector         |                              |
+GENERIC_INTRU_MO				|Intrusion detector    |                              |
+GENERIC_AREA_MO					|Area    			   |                              |
+RECEIVER						|Receiver    		   |                              |				
+PANEL						    |Panel    			   |                              |
+PARTITION					    |Partition    		   |                              |
+SENSOR							|Sensor    			   |                              |
+
+
+[EVENT]
+OPC_SERVER		|CONNECTED     	 |                              |OPC server Connected                              |M    |
+OPC_SERVER		|DISCONNECTED    |                              |OPC server Disconnected                           |A    |
+MODBUS_MODULE	|CONNECTED     	 |                              |Modbus module Connected                           |M    |
+MODBUS_MODULE	|DISCONNECTED    |                              |Modbus module Disconnected                        |A    |	
+GENERIC_DOOR 	|CONNECTED     	 |                              |Door Connected                                    |M    |
+GENERIC_DOOR    |DISCONNECTED    |                              |Door Disconnected                                 |A    |
+GENERIC_DOOR    |DOORACCESSED    |                              |Door Accessed                                     |M    |
+GENERIC_DOOR    |FORCEDENTRY     |                              |Door Force Open                                   |A    |
+GENERIC_DOOR    |PULSEDOOROPEN   |                              |Pulse Door Open                                   |M    |
+GENERIC_DOOR    |DOORHELDOPEN    |                              |Door Held Open                                    |A    |
+GENERIC_DOOR    |ACCESSGRANTED   |                              |Access Granted                                    |M    |
+GENERIC_DOOR    |ACCESSDENIED    |                              |Access Denied                                     |A    |
+GENERIC_DOOR    |STATECHANGED    |                              |Door state changed                                |M    |
+GENERIC_DOOR    |CLEARALARM      |                              |Clear Alarm                                       |M    |
+GENERIC_DOOR    |TAMPERED        |                              |Door Tampered                                     |A    |
+GENERIC_DOOR    |LOCKED        	 |                              |Door locked                                       |M    |
+GENERIC_DOOR    |UNLOCKED      	 |                              |Door unlocked                                     |M    |
+GENERIC_DOOR    |SECURED      	 |                              |Door secured                                      |A 	 |
+GENERIC_DOOR    |INSECURE      	 |                              |Door Insecured                                    |A 	 | 
+GENERIC_DOOR    |CARDADMITTED    |                              |Card admitted                                     |M    |
+GENERIC_DOOR    |EXPIRED         |                              |Action expired                                    |M    |
+GENERIC_DOOR    |TAMPERCLEARED   |                              |Tamper cleared                                    |M    |
+GENERIC_DOOR    |COMMRESTORED    |                              |Communication restored                            |M    |
+GENERIC_DOOR    |COMMLOST        |                              |Communication failure                             |A    |
+GENERIC_DOOR    |POWERRESTORED   |                              |Controller power restored                         |M    |
+GENERIC_DOOR    |POWERFAILURE    |                              |Controller power failure                          |A    |
+GENERIC_DOOR    |INACTIVE    	 |                              |Door Inactive                        			   |M    |
+GENERIC_DOOR    |MISSING    	 |                              |Door Missing                       			   |M    |
+GENERIC_DOOR    |CYCLING    	 |                              |Door Cycling                       			   |M    |
+GENERIC_DOOR    |OPENED    	     |                              |Door opened                       			   	   |M    |
+GENERIC_DOOR    |CLOSED    	 	 |                              |Door Opened                      			   	   |M    |
+GENERIC_INPUT   |CONNECTED       |                              |Input connected                                   |M    |
+GENERIC_INPUT   |DISCONNECTED    |                              |Input disconnected                                |A    |
+GENERIC_INPUT   |OPENED      	 |                              |Input opened                                  	   |M    |
+GENERIC_INPUT   |CLOSED  		 |                              |Input closed                              		   |A    |
+GENERIC_INPUT   |ACTIVATED       |                              |Input Activated                                   |A    |
+GENERIC_INPUT   |DEACTIVATED  	 |                              |Input deactivated                        		   |M    |
+GENERIC_INPUT   |TAMPERED        |                              |Input Tampered                                    |A    |
+GENERIC_INPUT   |ALARMED         |                              |Input Alarmed                                     |A    |
+GENERIC_INPUT   |SHUNT           |                              |Input shunt                                       |M 	 |
+GENERIC_INPUT   |UNSHUNT         |                              |Input unshunt                                     |M 	 |
+GENERIC_INPUT   |ISOLATE         |                              |Input isolated                                    |M 	 |
+GENERIC_INPUT   |DEISOLATE       |                              |Input de-isolated                                 |M 	 |
+GENERIC_INPUT   |COMMLOST        |                              |Communication failure                             |A    |
+GENERIC_INPUT   |COMMRESTORED    |                              |Communication restored                            |M    |
+GENERIC_INPUT   |POWERFAILURE    |                              |Controller power failure                          |A    |
+GENERIC_INPUT   |POWERRESTORED   |                              |Controller power restored                         |M    |
+GENERIC_OUTPUT  |ACTIVATED       |                              |Output activated                                  |A    |
+GENERIC_OUTPUT  |DEACTIVATED     |                              |Output deactivated                                |M    |
+GENERIC_OUTPUT  |ON       	  	 |                              |Output on                                  	   |A    |
+GENERIC_OUTPUT  |OFF     		 |                              |Output off                                		   |M    |
+GENERIC_OUTPUT  |CONNECTED       |                              |Output connected                                  |M    |
+GENERIC_OUTPUT  |DISCONNECTED    |                              |Output disconnected                               |A    |
+GENERIC_OUTPUT  |TAMPERED        |                              |Output Tampered                                   |A    |
+GENERIC_OUTPUT  |ALARMED         |                              |Output Alarmed                                    |A    |
+GENERIC_OUTPUT  |COMMLOST        |                              |Communication failure                             |A    |
+GENERIC_OUTPUT  |COMMRESTORED    |                              |Communication restored                            |M    |
+GENERIC_OUTPUT  |POWERFAILURE    |                              |Controller power failure                          |A    |
+GENERIC_OUTPUT  |POWERRESTORED   |                              |Controller power restored                         |M    |
+GENERIC_SENSOR  |CONNECTED       |                              |Sensor connected                                  |M    |
+GENERIC_SENSOR  |DISCONNECTED    |                              |Sensor disconnected                               |A    |
+GENERIC_SENSOR  |ACTVATED      	 |                              |Sensor activate                                   |M    |
+GENERIC_SENSOR  |DEACTIVATED	 |                              |Sensor deactivated                            	   |A    |
+GENERIC_SENSOR  |OPENED      	 |                              |Sensor opened                                     |M    |
+GENERIC_SENSOR  |CLOSED  		 |                              |Sensor closed                              	   |A    |
+GENERIC_SENSOR  |TAMPERED        |                              |Sensor Tampered                                   |A    |
+GENERIC_SENSOR  |ALARMED         |                              |Sensor alarmed                                    |A    |
+GENERIC_SENSOR  |COMMLOST        |                              |Communication failure                             |A    |
+GENERIC_SENSOR  |COMMRESTORED    |                              |Communication restored                            |M    |
+GENERIC_SENSOR  |POWERFAILURE    |                              |Controller power failure                          |A    |
+GENERIC_SENSOR  |POWERRESTORED   |                              |Controller power restored                         |M    |
+GENERIC_RELAY  	|ON       		 |                              |Switched on                                	   |A    |
+GENERIC_RELAY  	|OFF    		 |                              |Switched off                                      |M    |
+GENERIC_RELAY   |ACTVATED      	 |                              |Relay activate                                    |M    |
+GENERIC_RELAY   |DEACTIVATED	 |                              |Relay deactivated                            	   |A    |
+GENERIC_RELAY   |CONNECTED       |                              |Relay connected                                   |M    |
+GENERIC_RELAY   |DISCONNECTED    |                              |Relay disconnected                                |A    |
+GENERIC_RELAY   |TAMPERED        |                              |Relay tampered                                    |A    |
+GENERIC_RELAY   |COMMLOST        |                              |Communication failure                             |A    |
+GENERIC_RELAY   |COMMRESTORED    |                              |Communication restored                            |M    |
+GENERIC_RELAY   |POWERFAILURE    |                              |Controller power failure                          |A    |
+GENERIC_RELAY   |POWERRESTORED   |                              |Controller power restored                         |M    |
+GENERIC_SMOKE	|CIRCUIT_OPENED  |                              |Smoke Detector Circut Opened              		   |M    |
+GENERIC_SMOKE	|CIRCUT_SHORTED  |                              |Smoke Detector Circut Shorted             		   |M    |
+GENERIC_SMOKE	|NORMAL   		 |                              |Smoke Detector Normal            		   		   |M    |
+GENERIC_SMOKE	|ALARMED   		 |                              |Smoke Detector Alarmed            		   		   |A    |
+GENERIC_SMOKE	|TAMPERED 		 |                              |Smoke Detector Tampered            	   		   |A    |
+GENERIC_FIRE	|CIRCUIT_OPENED  |                              |Fire Detector Circut Opened               		   |M    |
+GENERIC_FIRE	|CIRCUT_SHORTED  |                              |Fire Detector Circut Shorted              		   |M    |
+GENERIC_FIRE	|NORMAL   		 |                              |Fire Detector Normal            		   		   |M    |
+GENERIC_FIRE	|ALARMED   		 |                              |Fire Detector Alarmed            		   		   |A    |
+GENERIC_FIRE	|TAMPERED 		 |                              |Fire Detector Tampered            		   		   |A    |
+GENERIC_INTRU	|CIRCUIT_OPENED  |                              |Intrusion Detector Circut Opened  				   |M    |
+GENERIC_INTRU	|CIRCUT_SHORTED  |                              |Intrusion Detector Circut Shorted      		   |M    |
+GENERIC_INTRU	|NORMAL   		 |                              |Intrusion Detector Normal          			   |M    |
+GENERIC_INTRU	|ALARMED   		 |                              |Intrusion Detector Alarmed            			   |A    |
+GENERIC_INTRU	|TAMPERED 		 |                              |Intrusion Detector Tampered            		   |A    |
+GENERIC_AREA	|AREA_ARMED      |                          	|Area Armed            							   |M    |
+GENERIC_AREA	|AREA_ARMED_EARLY|                          	|Area Armed early            					   |A    |
+GENERIC_AREA	|AREA_LATE_TO_ARM|                          	|Area late to arm          						   |A    |
+GENERIC_AREA	|AREA_FAILED_TO_ARM|                          	|Area falied to arm    							   |A    |
+GENERIC_AREA	|FORCED_ARMING     |                          	|Area Forced arming    							   |A    |
+GENERIC_AREA	|AREA_DISARMED     |                          	|Area disarmed            						   |M    |
+GENERIC_AREA	|AREA_DISARMED_EARLY|                          	|Area disarmed early   							   |A    |
+GENERIC_AREA	|AREA_LATE_TO_DISARM|                          	|Area late to disarm           					   |A    |
+GENERIC_AREA	|FAILED_TO_DISARM   |                          	|Area falied to disarm        					   |A    |
+GENERIC_AREA	|AREA_IN_ALARM     	|                          	|Area Alarmed           			    		   |A    |
+GENERIC_AREA	|WALK_TEST_STARTED  |                          	|Walk test started               				   |M    |
+GENERIC_AREA	|WALK_TEST_ENDED    |                          	|Walk test ended           			    		   |M    |
+GENERIC_AREA	|AREA_COMMAND_FAILED|                          	|Area Command failed     						   |A    |
+RECEIVER		|INFO				|                          	|INFO				     						   |M    |
+RECEIVER		|ALARM				|                          	|ALARM			    							   |A    |
+RECEIVER 		|EVENT				|                          	|EVENT			    							   |M    |
+PANEL		    |INFO				|                          	|INFO				     						   |M    |
+PANEL		    |ALARM				|                          	|ALARM			    							   |A    |
+PANEL 		 	|EVENT				|                          	|EVENT			    							   |M    |
+PANEL 			|CONNECTED 			|                          	|CONNECTED			    						   |M    |
+PANEL 			|DISCONNECTED 		|                          	|DISCONNECTED			    					   |M    |
+PARTITION 		|INFO				|                          	|INFO				     						   |M    |
+PARTITION		|ALARM				|                          	|ALARM			    							   |A    |
+PARTITION 		|EVENT				|                          	|EVENT			    							   |M    |
+PARTITION 		|ARM				|                          	|ARM			    							   |M    |
+PARTITION 		|DISARM				|                          	|DISARM			    							   |M    |
+SENSOR 			|INFO				|                          	|INFO				     						   |M    |
+SENSOR		    |ALARM				|                          	|ALARM			    						   	   |A    |
+SENSOR 		 	|EVENT				|                          	|EVENT			    							   |M    |
+SENSOR 		 	|BYPASS		   		|                          	|BYPASS			    							   |M    |
+
+[REACT]
+OPC_SERVER                   |CONNECT         |C| |Connect                     		   | |
+OPC_SERVER                   |DISCONNECT      |G| |Disconnect                          | |
+MODBUS_MODULE                |CONNECT         |C| |Connect                    		   | |
+MODBUS_MODULE                |DISCONNECT      |G| |Disconnect                          | |
+GENERIC_DOOR                 |PULSEDOOR   	  |C| |Pulse                      	   	   | |
+GENERIC_DOOR                 |OPEN   	  	  |C| |Open                      	       | |
+GENERIC_DOOR                 |CLOSED   	  	  |C| |Close                      	       | |
+GENERIC_DOOR                 |LOCKED          |G| |Lock                          	   | |
+GENERIC_DOOR                 |UNLOCKED        |C| |Unlock                    		   | |
+GENERIC_DOOR                 |SECURED      	  |G| |Disconnect                          | |
+GENERIC_DOOR                 |INSECURE        |G| |Disconnect                          | |
+GENERIC_DOOR                 |GRANT_ACCESS    |C| |Grant access                    	   | |
+GENERIC_DOOR                 |ALLOW_ACCESS    |G| |Allow access                        | |
+GENERIC_INPUT                |SHUNT    		  |G| |Input shunt                         | |
+GENERIC_INPUT				 |UNSHUNT    	  |G| |Input unshunt                       | |
+GENERIC_INPUT                |ISOLATE    	  |G| |Input isolated                      | |
+GENERIC_INPUT				 |DEISOLATE    	  |G| |Input deisolated                    | |
+GENERIC_OUTPUT				 |ON    	  	  |G| |Input deisolated                    | |
+GENERIC_OUTPUT				 |OFF    	  	  |G| |Input deisolated                    | |
+GENERIC_OUTPUT				 |PULSE    	  	  |G| |Input deisolated                    | |
+GENERIC_RELAY				 |ON    	  	  |G| |Switch on                     	   | |
+GENERIC_RELAY				 |OFF    	  	  |C| |Switch off                     	   | |
+GENERIC_SMOKE		 		 |VERIFY_ALARM 	  |C| |Verify alarm                        | |
+GENERIC_FIRE		 		 |VERIFY_ALARM 	  |C| |Verify alarm                        | |
+GENERIC_INTRU	 			 |VERIFY_ALARM 	  |C| |Verify alarm                        | |
+GENERIC_AREA	 			 |ARM 	  		  |C| |Arm                        		   | |
+GENERIC_AREA	 			 |DISARM 	  	  |C| |Disarm                        	   | |
+GENERIC_AREA	 			 |ARM_EARLY 	  |C| |Arm early                      	   | |
+GENERIC_AREA	 			 |LATE_TO_ARM 	  |C| |Late to arm                         | |
+GENERIC_AREA	 			 |DISARM_EARLY    |C| |Disarm early                        | |
+GENERIC_AREA	 			 |LATE_TO_DISARM  |C| |Late to disarm                      | |
+GENERIC_AREA	 			 |VERIFY_ALARM    |C| |Verify alarm                        | |
+PARTITION  					 |ARM    		  |G| |Arm partition                       | |
+PARTITION  					 |DISARM    	  |G| |Disarm partition                    | |
+PARTITION  					 |NORMALIZE    	  |G| |Normalize                 		   | |
+SENSOR  					 |BYPASS    	  |G| |Bypass                		   	   | |				  
+SENSOR  					 |NORMALIZE    	  |G| |Normalize                 		   | |	
+
+[STATE]
+OPC_SERVER		|CONNECTED       |                |   |                |Connected          |
+OPC_SERVER		|DISCONNECTED    |                |B  |                |Disconnected       |
+MODBUS_MODULE	|CONNECTED       |                |   |                |Connected          |
+MODBUS_MODULE	|DISCONNECTED    |                |B  |                |Disconnected       |
+GENERIC_DOOR	|CONNECTED       |                |   |                |Connected          |
+GENERIC_DOOR	|DISCONNECTED    |                |B  |                |Disconnected       |
+GENERIC_DOOR	|OPENED       	 |                |   |                |Opened             |
+GENERIC_DOOR	|CLOSED    		 |                |   |                |Closed      	   |
+GENERIC_DOOR	|LOCKED        	 |                |   |                |Locked             |
+GENERIC_DOOR	|UNLOCKED    	 |                |B  |                |Unlocked      	   |
+GENERIC_DOOR	|SECURED         |                |   |                |Secured            |
+GENERIC_DOOR	|INSECURE    	 |                |B  |                |Insecured      	   |
+GENERIC_DOOR	|INACTIVE    	 |                |   |                |Inactive      	   |
+GENERIC_DOOR	|TAMPERED    	 |                |B  |                |Tampered      	   |
+GENERIC_DOOR	|DOORHELDOPEN    |                |B  |                |Held Open     	   |
+GENERIC_DOOR	|DOORFORCE    	 |                |B  |                |Force Open     	   |
+GENERIC_DOOR	|ACCESSGRANTED   |                |B  |                |Access Granted     |
+GENERIC_DOOR	|ACCESSDENIED    |                |B  |                |Access Denied      |
+GENERIC_DOOR	|PULSEDOOR   	 |                |   |                |Pulse Door Open    |
+GENERIC_DOOR	|CYCLING   	 	 |                |   |                |Door Cycling       |
+GENERIC_INPUT   |CONNECTED       |                |   |                |Connected   	   |
+GENERIC_INPUT   |DISCONNECTED    |                |B  |                |Disconnected 	   |
+GENERIC_INPUT   |OPENED       	 |                |B  |                |Opened     		   |
+GENERIC_INPUT   |CLOSED    		 |                |B  |                |Closed 			   |
+GENERIC_INPUT   |ACTVATED      	 |                |B  |            	   |Activated     	   |
+GENERIC_INPUT   |DEACTIVATED     |                |B  |                |Deactivated        |
+GENERIC_INPUT   |TAMPERED     	 |                |B  |                |Tampered       	   |
+GENERIC_INPUT   |ALARMED  	 	 |                |B  |                |Alarmed       	   |
+GENERIC_INPUT   |SHUNT     	 	 |                |B  |                |Shunt         	   |
+GENERIC_INPUT   |UNSHUNT  	 	 |                |B  |                |Unshunt            |
+GENERIC_INPUT   |ISOLATE     	 |                |B  |                |Isolated      	   |
+GENERIC_INPUT   |DEISOLATE  	 |                |B  |                |De-isolated        |
+GENERIC_OUTPUT  |ACTIVATED  	 |                |B  |                |Activated          |
+GENERIC_OUTPUT  |DEACTIVATED     |                |   |                |Deactivated        |
+GENERIC_OUTPUT  |ON  	         |                |B  |                |On        		   |
+GENERIC_OUTPUT  |OFF  	         |                |B  |                |Off       		   |
+GENERIC_OUTPUT  |CONNECTED       |                |   |                |Connected   	   |
+GENERIC_OUTPUT  |DISCONNECTED  	 |                |B  |                |Disconnected       |
+GENERIC_OUTPUT  |TAMPERED  	 	 |                |B  |                |Tampered       	   |
+GENERIC_OUTPUT  |ALARMED  	 	 |                |B  |                |Alarmed       	   |
+GENERIC_SENSOR  |CONNECTED  	 |                |   |                |Connected          |
+GENERIC_SENSOR  |DISCONNECTED  	 |                |B  |                |Disconnected       |
+GENERIC_SENSOR  |OPENED  	 	 |                |   |                |Opened             |
+GENERIC_SENSOR  |CLOSED  	 	 |                |B  |                |Closed             |
+GENERIC_SENSOR  |ACTVATED      	 |                |   |            	   |Activated     	   |
+GENERIC_SENSOR  |DEACTIVATED     |                |   |                |Deactivated        |
+GENERIC_SENSOR  |TAMPERED     	 |                |B  |                |Tampered           |
+GENERIC_SENSOR  |ALARMED     	 |                |B  |                |Alarmed            |
+GENERIC_RELAY   |CONNECTED  	 |                |   |                |Connected          |
+GENERIC_RELAY   |DISCONNECTED  	 |                |B  |                |Disconnected       |
+GENERIC_RELAY   |ON  	 		 |                |B  |                |On                 |
+GENERIC_RELAY   |OFF  	 		 |                |B  |                |Off       		   |
+GENERIC_RELAY   |ACTVATED      	 |                |   |            	   |Activated     	   |
+GENERIC_RELAY   |DEACTIVATED     |                |   |                |Deactivated        |
+GENERIC_RELAY   |TAMPERED  	 	 |                |B  |                |Tampered       	   |
+GENERIC_SMOKE   |NORMAL  	   	 |                |   |                   |Normal       	   |
+GENERIC_SMOKE   |ALARMED  	 	 |                |B  |                   |Alarmed       	   |
+GENERIC_SMOKE   |TAMPERED  	  	 |                |B  |                   |Tampered       	   |
+GENERIC_SMOKE   |CIRCUIT_OPENED  |                |B  |                   |Circut Opened       |
+GENERIC_SMOKE   |CIRCUT_SHORTED  |                |B  |                   |Tampered       	   |
+GENERIC_FIRE   	|NORMAL  	 	 |                |   |                   |Normal       	   |
+GENERIC_FIRE   	|ALARMED  	 	 |                |B  |                   |Alarmed       	   |
+GENERIC_FIRE   	|TAMPERED  	  	 |                |B  |                   |Tampered       	   |
+GENERIC_FIRE   	|CIRCUIT_OPENED  |                |B  |                   |Circut Opened       |
+GENERIC_FIRE   	|CIRCUT_SHORTED  |                |B  |                   |Tampered       	   |
+GENERIC_INTRU   |NORMAL  	 	 |                |   |                   |Normal       	   |
+GENERIC_INTRU   |ALARMED  	 	 |                |B  |                   |Alarmed       	   |
+GENERIC_INTRU  	|TAMPERED  	   	 |                |B  |                   |Tampered       	   |
+GENERIC_INTRU  	|CIRCUIT_OPENED  |                |B  |                   |Circut Opened       |
+GENERIC_INTRU  	|CIRCUT_SHORTED  |                |B  |                   |Tampered       	   |
+GENERIC_AREA  	|AREA_ARMED  	 |                |   |                   |Armed       	       |
+GENERIC_AREA  	|AREA_ARMED_EARLY|                |   |                   |Armed early         |
+GENERIC_AREA  	|AREA_LATE_TO_ARM|                |   |                   |Late to arm         |
+GENERIC_AREA  	|AREA_FAILED_TO_ARM	|      	      |B  |               	  |Falied to arm       |
+GENERIC_AREA  	|AREA_IN_ALARM   |                |B  |                   |Alarmed        	   |
+GENERIC_AREA  	|FORCED_ARMING   |                |B  |                   |Forced arming  	   |
+GENERIC_AREA  	|AREA_DISARMED   |                |B  |                   |Disarmed    	       |
+GENERIC_AREA  	|AREA_DISARMED_EARLY 	|          |B  |               	   |Disarmed early     |
+GENERIC_AREA  	|AREA_LATE_TO_DISARM 	|          |B  |               	   |Late to disarm     |
+GENERIC_AREA  	|FAILED_TO_DISARM		|          |B  |               	   |Falied to disarm   |
+GENERIC_AREA  	|WALK_TEST_STARTED		|          |B  |               	   |Walk test started  |
+GENERIC_AREA  	|WALK_TEST_ENDED		|      	   |B  |               	   |Walk test ended    |
+GENERIC_AREA  	|AREA_COMMAND_FAILED	|      	   |B  |               	   |Command failed     |
+RECEIVER 		|ALARMED				|      	   |B  |               	   |ALARMED     	   |
+RECEIVER 		|NORMAL					|      	   |B  |               	   |NORMAL     		   |
+PANEL 			|CONNECTED				|      	   |   |               	   |Panel connected    |
+PANEL 			|DISCONNECTED 			|      	   |B  |               	   |Panel disconnected |
+PANEL 			|ALARMED 				|      	   |B  |               	   |Alarmed 		   |
+PARTITION  	    |ARMED 					|      	   |   |               	   |Partition Armed    |
+PARTITION  	    |DISARMED 				|      	   |B  |               	   |Partition Disarmed |
+PARTITION  	    |NORMAL 				|      	   |   |               	   |Normal 			   |
+PARTITION  	    |ALARMED 				|      	   |B  |               	   |Alarmed 		   |
+SENSOR  	    |NORMAL 				|      	   |   |               	   |Normal 			   |
+SENSOR  	    |BYPASSED 				|      	   |   |               	   |Bypassed 		   |
+SENSOR  	    |ALARMED 				|      	   |   |               	   |Alarmed 		   |
+
+[MARKER]
+
+[STATE_RULE]
+OPC_SERVER    	|CONNECTED     	 |    			  |CONNECTED       	|
+OPC_SERVER		|DISCONNECTED    |                |DISCONNECTED  	|
+MODBUS_MODULE	|CONNECTED       |                |CONNECTED    	|
+MODBUS_MODULE	|DISCONNECTED    |                |DISCONNECTED 	|
+GENERIC_DOOR	|CONNECTED       |                |CONNECTED 		|
+GENERIC_DOOR	|DISCONNECTED    |                |DISCONNECTED 	|
+GENERIC_DOOR	|OPENED       	 |                |OPENED 			|
+GENERIC_DOOR	|CLOSED    		 |                |CLOSED 			|
+GENERIC_DOOR	|LOCKED        	 |                |LOCKED 			|
+GENERIC_DOOR	|UNLOCKED    	 |                |UNLOCKED 		|
+GENERIC_DOOR	|SECURED         |                |SECURED 			|
+GENERIC_DOOR	|INSECURE    	 |                |INSECURE		 	|
+GENERIC_DOOR	|INACTIVE    	 |                |INACTIVE 		|
+GENERIC_DOOR	|TAMPERED    	 |                |TAMPERED 		|
+GENERIC_DOOR	|DOORHELDOPEN    |                |DOORHELDOPEN 	|
+GENERIC_DOOR	|DOORFORCE    	 |                |DOORFORCE 		|
+GENERIC_DOOR	|ACCESSGRANTED   |                |ACCESSGRANTED 	|
+GENERIC_DOOR	|ACCESSDENIED    |                |ACCESSGRANTED  	|
+GENERIC_DOOR	|PULSEDOOR   	 |                |PULSEDOOR  		|
+GENERIC_DOOR	|CYCLING   	 	 |                |CYCLING      	|
+GENERIC_INPUT   |CONNECTED       |                |CONNECTED    	|
+GENERIC_INPUT   |DISCONNECTED    |                |DISCONNECTED 	|
+GENERIC_INPUT   |OPENED       	 |                |OPENED 			|
+GENERIC_INPUT   |CLOSED    		 |                |CLOSED 			|
+GENERIC_INPUT   |ACTVATED      	 |                |ACTVATED 		|
+GENERIC_INPUT   |DEACTIVATED     |                |DEACTIVATED  	|
+GENERIC_INPUT   |TAMPERED     	 |                |TAMPERED 		|
+GENERIC_INPUT   |ALARMED  	 	 |                |ALARMED 		    |
+GENERIC_INPUT   |SHUNT     	 	 |                |SHUNT 			|
+GENERIC_INPUT   |UNSHUNT  	 	 |                |UNSHUNT 			|
+GENERIC_INPUT   |ISOLATE     	 |                |ISOLATE 			|
+GENERIC_INPUT   |DEISOLATE  	 |                |DEISOLATE 		|
+GENERIC_OUTPUT  |ACTIVATED  	 |                |ACTIVATED 		|
+GENERIC_OUTPUT  |DEACTIVATED     |                |DEACTIVATED 		|
+GENERIC_OUTPUT  |ON  	         |                |ON 				|
+GENERIC_OUTPUT  |OFF  	         |                |OFF 				|
+GENERIC_OUTPUT  |CONNECTED       |                |CONNECTED  		|
+GENERIC_OUTPUT  |DISCONNECTED  	 |                |DISCONNECTED 	|
+GENERIC_OUTPUT  |TAMPERED  	 	 |                |TAMPERED  		|
+GENERIC_OUTPUT  |ALARMED  	 	 |                |ALARMED 			|
+GENERIC_SENSOR  |CONNECTED  	 |                |CONNECTED  		|
+GENERIC_SENSOR  |DISCONNECTED  	 |                |DISCONNECTED  	|
+GENERIC_SENSOR  |OPENED  	 	 |                |OPENED  			|
+GENERIC_SENSOR  |CLOSED  	 	 |                |CLOSED 			|
+GENERIC_SENSOR  |ACTVATED      	 |                |ACTVATED   		|            	   
+GENERIC_SENSOR  |DEACTIVATED     |                |DEACTIVATED   	|                     
+GENERIC_SENSOR  |TAMPERED     	 |                |TAMPERED  		|                
+GENERIC_SENSOR  |ALARMED     	 |                |ALARMED 			|               
+GENERIC_RELAY   |CONNECTED  	 |                |CONNECTED  		|              
+GENERIC_RELAY   |DISCONNECTED  	 |                |DISCONNECTED  	|	              
+GENERIC_RELAY   |ON  	 		 |                |ON  				|                
+GENERIC_RELAY   |OFF  	 		 |                |OFF  			|             
+GENERIC_RELAY   |ACTVATED      	 |                |ACTVATED  		|            	  
+GENERIC_RELAY   |DEACTIVATED     |                |DEACTIVATED   	|                
+GENERIC_RELAY   |TAMPERED  	 	 |                |TAMPERED  		|                
+GENERIC_SMOKE   |NORMAL  	 	 |                |NORMAL   		|
+GENERIC_SMOKE   |ALARMED  	 	 |                |ALARMED 			|          
+GENERIC_SMOKE   |TAMPERED  	  	 |                |TAMPERED  		|              
+GENERIC_SMOKE   |CIRCUIT_OPENED  |                |CIRCUIT_OPENED  	|                  
+GENERIC_SMOKE   |CIRCUT_SHORTED  |                |CIRCUT_SHORTED  	|                   
+GENERIC_FIRE   	|NORMAL  	 	 |                |NORMAL   		|                  
+GENERIC_FIRE   	|ALARMED  	 	 |                |ALARMED  		|                   
+GENERIC_FIRE   	|TAMPERED  	     |                |TAMPERED  		|                   
+GENERIC_FIRE   	|CIRCUIT_OPENED  |                |CIRCUIT_OPENED  	|                  
+GENERIC_FIRE   	|CIRCUT_SHORTED  |                |CIRCUT_SHORTED  	|                   
+GENERIC_INTRU   |NORMAL  	 	 |                |NORMAL   		|               
+GENERIC_INTRU   |ALARMED  	 	 |                |ALARMED  		|                  
+GENERIC_INTRU  	|TAMPERED  	   	 |                |TAMPERED  		|                   
+GENERIC_INTRU  	|CIRCUIT_OPENED  |                |CIRCUIT_OPENED  	|                
+GENERIC_INTRU  	|CIRCUT_SHORTED  |                |CIRCUT_SHORTED  	|               
+GENERIC_AREA  	|ARM  	  		 |                |AREA_ARMED   	|             
+GENERIC_AREA  	|AREA_ARMED_EARLY|                |AREA_ARMED_EARLY |                 
+GENERIC_AREA  	|AREA_LATE_TO_ARM|                |AREA_LATE_TO_ARM |                  
+GENERIC_AREA  	|AREA_FAILED_TO_ARM	|          	  |AREA_FAILED_TO_ARM  |               	   
+GENERIC_AREA  	|AREA_IN_ALARM   |                |AREA_IN_ALARM  	|               
+GENERIC_AREA  	|FORCED_ARMING   |                |FORCED_ARMING 	|                   
+GENERIC_AREA  	|AREA_DISARMED   |                |AREA_DISARMED  	|           
+GENERIC_AREA    |AREA_DISARMED_EARLY |            |AREA_DISARMED_EARLY |               	
+GENERIC_AREA  	|AREA_LATE_TO_DISARM |            |AREA_LATE_TO_DISARM |               	 
+GENERIC_AREA  	|FAILED_TO_DISARM  	 |            |FAILED_TO_DISARM |               	   
+GENERIC_AREA  	|WALK_TEST_STARTED	 |            |WALK_TEST_STARTED|               	  
+GENERIC_AREA  	|WALK_TEST_ENDED	 |      	  |WALK_TEST_ENDED  |               	  
+GENERIC_AREA  	|AREA_COMMAND_FAILED |      	  |AREA_COMMAND_FAILED |               	  
+RECEIVER 		|INFO 			 	 |      	  |NORMAL 			|   
+RECEIVER 		|ALARM 			 	 |      	  |ALARMED 			| 
+RECEIVER 		|EVENT 			 	 |      	  |NORMAL 			|    
+PANEL 			|CONNECTED 			 |      	  |CONNECTED 		|    
+PANEL 			|DISCONNECTED 		 |      	  |DISCONNECTED 	|   
+PANEL 			|ALARM 		 	 	 |      	  |ALARMED 			|     
+PANEL 			|INFO 		 	 	 |      	  |CONNECTED 		|   
+PANEL 			|EVENT 		 	 	 |      	  |CONNECTED 		| 
+PARTITION 		|INFO 		 	 	 |      	  |NORMAL 			|       
+PARTITION 		|ALARM 		 	 	 |      	  |NORMAL 			|     
+PARTITION 		|ALARM 		 	 	 |      	  |ALARMED 			|       
+PARTITION 		|ARM 		 	 	 |      	  |ARMED 			| 
+PARTITION 		|DISARM 		 	 |      	  |DISARMED 		|   
+PARTITION 		|EVENT 		 	 	 |      	  |NORMAL 			|       
+SENSOR 			|INFO 		 	 	 |      	  |NORMAL 			|       
+SENSOR 			|BYPASS 		 	 |      	  |BYPASSED 		|  
+SENSOR 			|ALARM 		 		 |      	  |ALARMED 			|       
+SENSOR 			|EVENT 		 		 |      	  |NORMAL 			|       
+

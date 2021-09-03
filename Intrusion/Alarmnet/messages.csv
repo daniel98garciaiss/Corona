@@ -1,0 +1,34 @@
+Message,Alert,Type
+E100,Medical Alarm,Alarm
+R100,Medical Alarm Restored,Info
+E110,Fire Alarm,Alarm
+R110,Fire Alarm Restored,Info
+E111,Fire Alarm:Smoke,Alarm
+R111,Fire Alarm:Smoke Restored,Info
+E112,Fire Alarm:Combustion,Alarm
+R112,Fire Alarm:Combustion Restored,Info
+E113,Fire Alarm:Water Flow,Alarm
+R113,Fire Alarm:Water Flow Restored,Info
+E114,Fire Alarm:Heat,Alarm
+R114,Fire Alarm:Heat Restored,Info
+E115,Fire Alarm:Pull Station,Alarm
+R115,Fire Alarm:Pull Station Restored,Info
+E116,Fire Alarm:Duct,Alarm
+R116,Fire Alarm:Duct Restored,Info
+E117,Fire Alarm:Flame,Alarm
+R117,Fire Alarm:Flame Restored,Info
+E118,Fire Alarm:Near Alarm,Alarm
+R118,Fire Alarm:Near Alarm Restored,Info
+E121,Panic Alarm:Duress,Alarm
+R121,Panic Alarm:Duress Restored,Info
+E122,Panic Alarm:Silent,Alarm
+R122,Panic Alarm:Silent Restored,Info
+E123,Panic Alarm:Audible,Alarm
+R123,Panic Alarm:Audible Restored,Info
+E131,Burglar Alarm:Perimeter,Alarm
+R131,Burglar Alarm:Perimeter Restored,Info
+E132,Burglar Alarm:Interior,Alarm
+R132,Burglar Alarm:Interior Restored,Info
+E401,Open by user,Event
+R401,Close by user,Event
+55555555,Test Event,Event
