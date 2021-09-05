@@ -32,15 +32,15 @@ require('./helpers/sockets')(io)
 
 
 
-
 //settings
 port = 3002;
 app.set('views', path.join(__dirname,'view'));
 app.engine('.hbs',exphbs({
+    helpers: require('./helpers/handlebars').helpers,
     defaultLayout: 'main',
     layoutsDir: path.join(app.get('views'),'layouts'),
     partialsDir: path.join(app.get('views'), 'partials'),
-    extname: '.hbs'
+    extname: '.hbs',
 }))
 
 

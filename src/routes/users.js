@@ -13,7 +13,7 @@ const { connect } = require('mongoose');
 const router = express.Router();
 const user = require('../models/user')
 const passport = require('passport')
-const {isAuthenticated, isNotAuthenticated} = require('../helpers/auth')
+const {isAuthenticated, isNotAuthenticated, isAdmin} = require('../helpers/auth')
 
 ////////////////////////////////////////////////////////////
 //////////////////////////VISTAS ///////////////////////////
@@ -32,14 +32,14 @@ router.post('/login',passport.authenticate('local',{
 }));
 
 /////////////////// GET - VISTA GENERAL DE USUARIOS //////////////////////
-router.get('/users',isAuthenticated,  async(req,res) => {           //ASYNC
+router.get('/users', [isAuthenticated, isAdmin],  async(req,res) => {           //ASYNC
      toolbar = { title: 'Usuarios',
                  buttons: [{
                      text:'Crear nuevo Usuario',
                      link:'/users/create'
                  }]
     };
-     var users = await user.find().lean().sort({login: 'ascending'});
+     var users = await user.find({"rol": "common"}).lean().sort({login: 'ascending'});
      res.render('users/users',{users,toolbar})
 });
 
@@ -112,7 +112,7 @@ router.put('/users/change_password/:id',isAuthenticated, async (req,res) =>{
 });
 /////////////////// METODO CREAR USUARIOS //////////////////////
 router.post('/users/new/',isAuthenticated, async (req,res) => {                
-    const {login,password,firstname,lastname} = req.body
+    const {login,password,firstname,lastname, rol} = req.body
     const errors = []
     console.log(req.body);
     if(login==''){
@@ -122,14 +122,14 @@ router.post('/users/new/',isAuthenticated, async (req,res) => {
         errors.push({text:'Por favor inserte una Contraseña'})
     }
     if(errors.length>0)   
-        res.render('users/create_user',{errors,login,password,firstname,lastname})
+        res.render('users/create_user',{errors,login,password,firstname,lastname, rol})
     else{ 
         const loginUser = await user.findOne({login:login})
         if(loginUser){
             req.flash('error_msg','El usuario ya existe')
             res.redirect('/users/create')
         }
-        const NewUser = new user({login,password,firstname,lastname})
+        const NewUser = new user({login,password,firstname,lastname, rol})
         NewUser.password = await  NewUser.encryptPassword(password)
         await NewUser.save();      
         req.flash('success_msg', 'Usuario creado satisfactoriamente!')
@@ -155,7 +155,7 @@ router.post('/users/root/', async (req,res) => {
             req.flash('error_msg','El usuario ya existe')
             res.redirect('/users/create')
         }
-        const NewUser = new user({login,password,firstname,lastname})
+        const NewUser = new user({login,password,firstname,lastname, rol:"admin"})
         NewUser.password = await  NewUser.encryptPassword(password)
         await NewUser.save();      
         req.flash('success_msg', 'Usuario creado satisfactoriamente!')
@@ -171,6 +171,5 @@ router.get('/api/users', async(req,res) => {           //ASYNC
     var users = await user.find().lean().sort({login: 'asc'});
     res.send(users)
 });
-
 
 module.exports = router;

@@ -14,4 +14,13 @@ helpers.isNotAuthenticated = (req,res,next) =>{
     res.redirect('/resources')
 }
 
+helpers.isAdmin = (req,res,next) =>{
+    console.log(req.user.rol)
+    if(req.user.rol == "admin"){
+        return next();
+    }
+  
+    res.redirect('/resources')
+}
+
 module.exports = helpers;

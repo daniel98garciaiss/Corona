@@ -20,10 +20,17 @@
              <div class="mb-3"> 
                 <input type="text" id="lastname" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}">
              </div>
+             <div class="mb-3"> 
+               <select class="form-select" name="rol" aria-label="Default select example">
+                  <option selected>Tipo de usuario</option>
+                  <option value="admin">Administrador</option>
+                  <option value="common">Usuario comun</option>
+               </select>
+             </div>
+
              <div class="d-grid gap-2">
                 <button class="btn btn-primary" type="submit">Crear</button>
             </div>
-   
              </form>
         </div>
     </div>

@@ -7,8 +7,8 @@ const newUser = new Schema({
     login: { type:String, required:true},
     password: { type:String, required:true},
     firstname: { type:String, required:false},
-    lastname: { type:String, required:false}
-
+    lastname: { type:String, required:false},
+    rol: { type:String, required:true}
 })
 
 newUser.methods.encryptPassword = async (password) =>{
