@@ -39,7 +39,7 @@ router.get('/users', [isAuthenticated, isAdmin],  async(req,res) => {           
                      link:'/users/create'
                  }]
     };
-     var users = await user.find({"rol": "common"}).lean().sort({login: 'ascending'});
+     var users = await user.find({"_id": {$ne : req.user._id}}).lean().sort({login: 'ascending'});
      res.render('users/users',{users,toolbar})
 });
 

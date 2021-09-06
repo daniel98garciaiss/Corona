@@ -15,12 +15,12 @@ helpers.isNotAuthenticated = (req,res,next) =>{
 }
 
 helpers.isAdmin = (req,res,next) =>{
-    console.log(req.user.rol)
+    // console.log(req.user.rol)
     if(req.user.rol == "admin"){
         return next();
     }
   
-    res.redirect('/resources')
+    req.flash('error_msg','No Autorizado');
 }
 
 module.exports = helpers;

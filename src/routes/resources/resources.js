@@ -9,25 +9,14 @@ const restapi = require('../../models/restapi')
 const opc = require('../../models/opc')
 
 
-const {isAuthenticated} = require('../../helpers/auth')
+const {isAuthenticated, isAdmin} = require('../../helpers/auth')
 
 
 router.get('/resources',isAuthenticated, async (req,res) => {           //ASYNC
     var Opc = await opc.find().lean().sort({name: 'ascending'});
-    //console.log('OPC',Opc)
     var Restapi = await restapi.find().lean().sort({name: 'ascending'});
-    res.render('resources',{Opc,Restapi, helpers:{ if_eq: registerHelper }})
+    res.render('resources',{Opc,Restapi})
     
 });
 
-
-
-
-
-function registerHelper(a, b, opts) {
-    if(a == b) // Or === depending on your needs
-        return opts.fn(this);
-    else
-        return opts.inverse(this);
-};
 module.exports = router;

@@ -4,7 +4,7 @@ const Opc = require('../../models/opc')
 const router = express.Router();
 const passport = require('passport')
 const opcDriver = require('../../drivers/opc')
-const {isAuthenticated} = require('../../helpers/auth')
+const {isAuthenticated, isAdmin} = require('../../helpers/auth')
 
 router.get('/resource/create/opc', (req,res) => {
     res.render('create_resource');
@@ -20,7 +20,7 @@ setTimeout(opcDriver.start, 30000);
 ////////////////////////////////////////////////////////////
 
 /////////////////// GET - CREAR OPC //////////////////////
-router.get('/resources/opc',isAuthenticated, (req,res) => {           
+router.get('/resources/opc',[isAuthenticated, isAdmin], (req,res) => {           
     res.render('create_opc')
 });
 
@@ -47,7 +47,7 @@ router.get('/resources/opc/:id/monitor', async (req,res) =>{
 ////////////////////////////////////////////////////////////
 
 /////////////////// POST - CREAR OPC //////////////////////
-router.post('/resources/opc',isAuthenticated, async (req,res) => {           //ASYNC
+router.post('/resources/opc',[isAuthenticated, isAdmin], async (req,res) => {           //ASYNC
     const {name,url} = req.body
     const errors = []
     console.log(req.body);
@@ -96,7 +96,7 @@ router.put('/resources/opc/:id',isAuthenticated, async (req,res) =>{
 });
 
 /////////////////// DELETE - ELIMINAR OPC //////////////////////
-router.delete('/resources/opc/:id',isAuthenticated, async (req,res) =>{
+router.delete('/resources/opc/:id',[isAuthenticated, isAdmin], async (req,res) =>{
     await Opc.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Servidor OPC eliminado satisfactoriamente!')
     res.redirect('/resources')
