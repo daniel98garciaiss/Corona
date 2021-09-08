@@ -60,6 +60,11 @@ router.get ('/users/change_password/:id',isAuthenticated,  async (req,res) =>{
     res.render('users/change_password',{User})
 });
 
+/////////////////// VISTA ADVANCE CONFIG //////////////////////
+router.get('/advance-config',isAuthenticated, (req,res) => {           
+
+    res.render('advance_config',{hola: "hola mundo"})
+});
 
 ////////////////////////////////////////////////////////////
 //////////////////////////METODOS ///////////////////////////
@@ -137,6 +142,7 @@ router.post('/users/new/',isAuthenticated, async (req,res) => {
         res.redirect('/users')
     }
 });
+
 router.post('/users/root/', async (req,res) => {                
     const {login,password,firstname,lastname} = req.body
     const errors = []

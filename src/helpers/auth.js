@@ -21,6 +21,8 @@ helpers.isAdmin = (req,res,next) =>{
     }
   
     req.flash('error_msg','No Autorizado');
+    res.redirect('back');
+
 }
 
 module.exports = helpers;
