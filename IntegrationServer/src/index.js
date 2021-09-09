@@ -33,7 +33,7 @@ require('./helpers/sockets')(io)
 
 
 //settings
-port = 3002;
+port = 3003;
 app.set('views', path.join(__dirname,'view'));
 app.engine('.hbs',exphbs({
     helpers: require('./helpers/handlebars').helpers,

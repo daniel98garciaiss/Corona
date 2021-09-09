@@ -103,6 +103,41 @@ async function read(_id)
     })  
 }
 
+async function write(_id,key,value)
+{
+    var opc = await Opc.findById(_id).lean();
+    //console.log(opc)
+    var newValue = `{"url":"${opc.url}",
+                 "var":"${key}",
+                 "val":"${value}"
+                }`
+
+    return new Promise(json =>{
+        var options = {
+            'method': 'POST',
+            'url': `http://${opcConfig.ip}:${opcConfig.port}${opcConfig.pathWrite}`,
+            'headers': {
+              'Content-Type': 'application/json'
+            },
+            body: newValue
+        };
+
+        request(options, async function (error, res) {
+            if (error)
+            {
+                console.log('Servicio de OPC no responde, ', error);
+                return false;
+            }
+            _json = JSON.parse(res.body)
+           
+            console.log(_json)
+            json(_json)
+        });    
+    })  
+}
+
+
 exports.add = add;
 exports.test = test;
 exports.start = start;
+exports.write = write;
