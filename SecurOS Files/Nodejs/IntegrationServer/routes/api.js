@@ -4,14 +4,14 @@ const router = express.Router();
 const request = require('request');
 const fs = require ('fs');
 var Regex = require("regex");
-
+var TreeArray =[];
 
 router.get('/api/securos/', (req,res) => {
    res.send('Connected to SecurOS External systems Api')
 });
 
 router.post('/api/securos/event', (req,res) =>{
-    console.log(req.body);
+    //console.log(req.body);
     var json = JSON.stringify(req.body);
     var parsedJson = JSON.parse(json);
     var SecurosComment = '', SecurosEvent  = '', SecurosRecType  = '',
@@ -19,7 +19,7 @@ router.post('/api/securos/event', (req,res) =>{
      SecurosSenType = '', SecurosSenId = '', type = '' , id = '' , Event = '' , comment = '' ;
     for (var keys in parsedJson) {
 
-            console.log( keys+": "+ parsedJson[keys]);
+            //console.log( keys+": "+ parsedJson[keys]);
             switch (keys){
                 case "event_code":
                         SecurosComment = SecurosComment+ ' ' + parsedJson[keys];
@@ -55,7 +55,6 @@ router.post('/api/securos/event', (req,res) =>{
 
             }
     }
-
     //Priority
     comment = SecurosComment;
     Event = SecurosEvent;
@@ -84,20 +83,41 @@ router.post('/api/securos/event', (req,res) =>{
             id = id
     }
     securos.connect( async function (core) {
-        console.log(type,id,Event,comment )
+        //console.log(type,id,Event,comment )
         core.sendEvent(type,id,Event,{'comment':comment});
+        core.disconnect();
     })
     res.send('ok')
 })
 
 router.get('/api/securos/item', (req,res) =>{
-    const {type,id} = req.body; 
-    pg.query("SELECT * FROM \"OBJ_"+type+"\" WHERE id = \'"+id+"\'", function(resp)
+    const {type} = req.body; 
+    securos.connect( async function (core) {
+        let objectsIds = await core.getObjectsIds(type);
+        objectsIds.forEach(id => {
+                /*getObject
+                let object = await core.getObject(type, id);
+                try{
+                    var json = JSON.stringify(object);
+                    var parsedJson = JSON.parse(json);
+                    if(parsedJson != null  && parsedJson != undefined)
+                    {
+                        console.log(parsedJson);
+                    }
+                }catch(error){
+                        console.error(error);
+                } */
+
+        });
+        core.disconnect();
+        res.send('ok')
+    });
+    /*pg.query("SELECT * FROM \"OBJ_"+type+"\" WHERE id = \'"+id+"\'", function(resp)
     {       
         console.log(resp.rows);
         res.send(resp.rows);
        
-    });
+    });*/
 });    
 
 router.get('/api/securos/allItems', (req,res) =>{
@@ -114,16 +134,17 @@ const {type,id,action} = req.body;
         //GETCHILDRENcore.(type,id,action)
         //Construir json
         var json ;
+        core.disconnect();
         res.send(json)
     })
 
 })
 
 router.post('/api/securos/react', (req,res) =>{
-
-const {type,id,action} = req.body;
+    const {type,id,action} = req.body;
     securos.connect( async function (core) {
         core.doReact(type,id,action)
+        core.disconnect();
         res.send('ok')
     })
 
@@ -131,38 +152,90 @@ const {type,id,action} = req.body;
 })
 
 function regularExpression(text, regexp){
-
-    //var re = new RegExp(/(OBJ_+\w+)/g);
     var re = new RegExp(regexp);
+    //console.log(re);
     var r  = text.match(re);
-    //console.log(r.length);
-    r.forEach(element => {
-            console.log(element);
+    //console.log(r);
+    if(r != null){
+        //console.log(r.length);
+        r.forEach(element => {
+            //console.log(element);
         });
-    return r;
+        return r;
+    }
+    else 
+        return "";
 }
 
-test2();
-function test2(){
-    console.log('test2');
+router.post('/api/securos/eventreact', (req,res) =>{
+    //console.log(req.body);
+    const {type,id,action} = req.body;
+    //console.log(type, id, action);
+    var react = regularExpression(action, "\\w+(?=REACT)");
     securos.connect( async function (core) {
-    core.registerEventHandler("GENERIC_SENSOR","*","ACTVATED",eventHandler)
-    core.registerEventHandler('GENERIC_RELAY','*',"*",eventHandler)
-    core.registerEventHandler("GENERIC_AREA","*","AREA_ARMED",eventHandler)
-    //core.registerEventHandler('MACRO','*',"RUN",eventHandler)
-    });
+        let object = await core.getObject(type, id);
+        try{
+                var json = JSON.stringify(object);
+                var parsedJson = JSON.parse(json);
+                if(parsedJson != null  && parsedJson != undefined)
+                {
+                    //console.log(parsedJson);
+                    //console.log("parentId",parsedJson.parentId, "parentType", parsedJson.parentType );
+                    if(parsedJson.Type !=  'EXTERNAL_SYSTEMS' && parsedJson.Type != 'INTEGRATION' && parsedJson.Type != 'SLAVE'  && parsedJson.Type != 'MAIN'){
+                        TreeArray =[];
+                        Complete.push ({'react': react[0] });
+                        getObjectTree(parsedJson.parentId, parsedJson.parentType, parsedJson.name, parsedJson.id);
+                        
+
+                        
+                    }
+                }
+        }  
+        catch(error){
+                console.error(error);
+        } 
+        res.send(ok);
+    })
+
+})
+function getObjectTree(parentId, parentType, name, id){
+
+
+        TreeArray.push( {name,id} );
+        securos.connect( async function (core) {
+            if(parentType != 'EXTERNAL_SYSTEMS' ){
+                let object = await core.getObject(parentType, parentId);
+                try{
+                        var json = JSON.stringify(object);
+                        var parsedJson = JSON.parse(json);
+                        if(parsedJson != null  && parsedJson != undefined)
+                        {
+                            //console.log(parsedJson);
+                            //console.log("parentId",parsedJson.parentId, "parentType", parsedJson.parentType );
+                            getObjectTree(parsedJson.parentId, parsedJson.parentType, parsedJson.name, parsedJson.id );
+                        }
+
+                }  
+                catch(error){
+                        reject(error);
+                        console.error(error);
+                } 
+            }
+
+        })
+        console.log(TreeArray);
 }
 
-function eventHandler(e){
-console.log(e);
+function eventHandlerReact(e){
+console.log('eventHandlerReact',e);
  var options = {
       'method': 'POST',
-      'url': 'http://127.0.0.1:3002/api/securos/',
+      'url': 'http://127.0.0.1:3002/api/securos/react',
       'headers': {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({"type":"GENERIC_SENSOR","id":"1","action":"ALARMED"})
-      //body: JSON.stringify(e)
+      //body: JSON.stringify({"type":"GENERIC_SENSOR","id":"1","action":"ALARMED"})
+      body: JSON.stringify(e)
     };
     request(options, function (error, response) {
       if (error) throw new Error(error);

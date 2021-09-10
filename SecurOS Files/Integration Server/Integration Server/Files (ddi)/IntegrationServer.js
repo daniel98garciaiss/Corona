@@ -1,5 +1,7 @@
 function Load(o) {
     o.image =  o.system.type + ".png"
+    o.name = o.system.name
+    o.state = o.system.stateName 
 }
 
 function Update(o)
@@ -308,10 +310,15 @@ function Update(o)
     }
     
     o.image = o.system.type + suffix + ".png"
+    o.name = o.system.name
+    o.state = o.system.stateName 
 }
  
 function MenuFilter(o, action) {
+    o.name = o.system.name
+    o.state = o.system.stateName 
     return o.system.rights >= 2;
+
 }
 
 IntegrationServer = { load: Load, update: Update, menuFilter: MenuFilter }

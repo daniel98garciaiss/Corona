@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -79,6 +80,37 @@ namespace Integration_Server
 
         private void SecurOSMessage(ISS.Net.Message msg)
         {
+
+            var action = msg.GetMessageAction();
+            var type = msg.GetMessageType();
+            var id = msg.GetMessageId();
+            if (!type.Equals("MAIN") && !type.Equals("SLAVE") && !type.Equals("INTEGRATION") && !type.Equals("EXTERNAL_SYSTEMS"))
+            {
+                //iidkManager.SendMessage(type+"|"+ id +"|"+action+"-REACT");
+                //string json = "{\"type\":\"" + type + "\",\"id\":\"" + id + "\",\"action\":\"" + action+" -REACT" + "\"}";
+                string server = ConfigurationManager.AppSettings["ServerListener"];
+                string port = ConfigurationManager.AppSettings["ServerListenerPort"];
+                var url = "http://" + server + ":" + port + "/api/securos/eventreact";
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"type\":\"" + type + "\"," +
+                                  "\"id\":\"" + id + "\"," +
+                                  "\"action\":\"" + action + "REACTION" + "\"}";
+
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+            }
+
         }
 
         public void hilo()
