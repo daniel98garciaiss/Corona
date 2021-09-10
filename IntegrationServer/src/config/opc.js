@@ -5,6 +5,5 @@ module.exports = {
         port:8181,
         path:'/api/OPC/Read',
         pathWrite:'/api/OPC/write',
-        
     }
 
