@@ -4,7 +4,7 @@ const app = express();
 const server = http.createServer(app);
 
 //settings
-port = 3002;
+port = 3015;
 
 //middlewares
 app.use(express.urlencoded({extended:false}))
