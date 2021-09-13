@@ -31,8 +31,9 @@ client.on('data', function(data) {
     console.log('Received: ' + data0);
     if(data0=="00 OKAY @")
     {
-      //Keep alieve message
-      client.write('6');
+      //ACK message
+      var buff = Buffer.from([6]);
+      client.write(buff);
       console.log("ACK send")
     }
     else
@@ -67,13 +68,16 @@ client.on('data', function(data) {
             console.log(json);
             var options = {
             'method': 'POST',
-            'url': 'http://127.0.0.1:3003/api/securos/event',
+            'url': 'http://127.0.0.1:3007/api/securos/event',
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(json) //JSON.stringify({"receiver":"1","panel":"1752","cid":"18","event_code":"E401","comment":"not found","event":"ALARM","partition":"49","sensor":"1","type":"SENSOR","typeID":"1"})
 
             };
+            var buff = Buffer.from([6]);
+            client.write(buff);
+            console.log("ACK send")
         break;
         case 6:
         //Contact ID
@@ -99,29 +103,34 @@ client.on('data', function(data) {
                 "comment":event,
                 "event":type,
                 "partition":partition,
-                "contact":contact
+                "sensor":contact
             }
             console.log(json);
             var options = {
             'method': 'POST',
-            'url': 'http://127.0.0.1:3003/api/securos/event',
+            'url': 'http://127.0.0.1:3007/api/securos/event',
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(json) //JSON.stringify({"receiver":"1","panel":"1752","cid":"18","event_code":"E401","comment":"not found","event":"ALARM","partition":"49","sensor":"1","type":"SENSOR","typeID":"1"})
 
             };
+            var buff = Buffer.from([6]);
+            client.write(buff);
+            console.log("ACK send")
         break;
         default:
-            console.log("default case")
+            console.log("default case");
+            var buff = Buffer.from([21]);
+            client.write(buff);
+            console.log("NAK send")
         break;
     }
     request(options, function(error, response) {
         if (error) throw new Error(error);
             console.log(response.body);
     });
-    client.write('21');
-    console.log("NAK send")
+    
     }  
     //client.destroy(); // kill client after server's response
 });
@@ -162,7 +171,7 @@ function find_message(message_to_find)
         else
         {
             found = "not found";
-            type = "Info";
+            type = "ALARM";
         }
     }
     return  [found,type];
