@@ -27,7 +27,8 @@ client.connect(1027, '192.168.1.175', function() {
 });
 
 client.on('data', function(data) {
-    client.write('06'.toString('hex'));
+    var buff = Buffer.from([6]);
+    client.write(buff);
     var data0 = data.toString();
     console.log('Received: ' + data0);
   try
