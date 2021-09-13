@@ -74,6 +74,7 @@ app.use((req,res,next) =>{
 //routes
 app.use(require('./routes/index'))
 app.use(require('./routes/users'))
+app.use(require('./routes/relays'))
 app.use(require('./routes/resources/restapi'))
 app.use(require('./routes/resources/opc'))
 app.use(require('./routes/resources/resources'))

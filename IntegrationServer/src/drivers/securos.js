@@ -2,19 +2,57 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 const { connect } = require('mongoose');
-const Opc = require('../models/opc');
+const relay = require('../models/securos');
 const opcConfig = require('../config/opc');
 
 
-function opcHealth(_id)
+function relayHealth(_id)
 {
-setInterval(function(){
-   read(_id);
-},10000)
+    setInterval(function(){
+        read(_id);
+    },10000)
 }
 
+async function start()
+{
+   var relay = await relay.find().lean();
+   relay.forEach(element => {
+    relayHealth(element._id);
+   });
+}
 
+async function write(_id)
+{
+     var opc = await Opc.findById(_id).lean();
+    //console.log(opc)
+    var newValue = `{"url":"${opc.url}",
+                 "var":"${key}",
+                 "val":"${value}"
+                }`
 
+    return new Promise(json =>{
+        var options = {
+            'method': 'POST',
+            'url': `http://${opcConfig.ip}:${opcConfig.port}${opcConfig.pathWrite}`,
+            'headers': {
+              'Content-Type': 'application/json'
+            },
+            body: newValue
+        };
+
+        request(options, async function (error, res) {
+            if (error)
+            {
+                console.log('Servicio de OPC no responde, ', error);
+                return false;
+            }
+            _json = JSON.parse(res.body)
+           
+            console.log(_json)
+            json(_json)
+        });    
+    })  
+}
 
 //Json : 
 
@@ -42,7 +80,6 @@ var json_test =
             value:6
         }
 }
-
 */
 
 // SECUROS_OBJECT
@@ -66,7 +103,7 @@ var obj =
        }
 }
 
-//comando a securos
+//mando a securos
 //Cuando el key del server sea igual al text de ON/OFF se envia  http://127.0.0.1:3002/api/securos/event  
 /*var json_test =
 {
@@ -91,3 +128,8 @@ value: 6 text del usuario
 btn guardar
 
 */
+
+// exports.add = add;
+// exports.test = test;
+exports.start = start;
+exports.write = write;

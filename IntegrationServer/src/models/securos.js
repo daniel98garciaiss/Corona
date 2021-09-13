@@ -8,5 +8,5 @@ const SecurOSSchema = new Schema({
     actions: { type:Array, "default" : [] }
 })
 
-module.exports = mongoose.model('Opc',SecurOSSchema)
+module.exports = mongoose.model('Relay',SecurOSSchema)
 

@@ -27,11 +27,19 @@ var register = function(Handlebars) {
             default:
                 return options.inverse(this);
         }
-      }
+      },
+
+        convert: function(obj){
+            if (!obj) {
+                return;
+            }
+        return JSON.stringify(obj);
+        },
+
+      
+
     };
   
-
-
 
 
 

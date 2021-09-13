@@ -1,5 +1,3 @@
 socket = io();
 
 socket.on('')
-
-
