@@ -9,13 +9,11 @@
  *
 */ 
 const express = require('express');
-const { connect } = require('mongoose');
 const router = express.Router();
-const user = require('../models/securos')
-const passport = require('passport')
+const securosDriver = require('../drivers/securos');
 const {isAuthenticated, isNotAuthenticated, isAdmin} = require('../helpers/auth')
-const relay = require('../models/securos')
-const opc = require('../models/opc')
+const relay = require('../models/securos');
+const opc = require('../models/opc');
 
 // const securosDriver = require('../drivers/securos')
 
@@ -31,27 +29,28 @@ router.get('/relays',isAuthenticated, async (req,res) => {           //ASYNC
 
     var Relays = await relay.find().lean().sort({name: 'ascending'});
 
-    res.render('relays/relays',{Relays})
+    res.render('relays/relays',{Relays});
 });
 
 /////////////////// VISTA CREATE RELAY//////////////////////
 router.get('/relays/create',isAuthenticated, async (req,res) => {           
     
     var Opc = await opc.find().lean().sort({name: 'ascending'});
-    var methodsArray = [];
-    for(let i=0; i<Opc.length; i++) {
-        methodsArray.push(Opc[i].methods);
-        // console.log(Opc[i].methods)
-    }
 
-    res.render('relays/create_relay' , {Opc, methodsArray })
+    // var methodsArray = [];
+    // for(let i=0; i<Opc.length; i++) {
+        // methodsArray.push(Opc[i].methods);
+        // console.log(Opc[i].methods)
+    // }
+
+    res.render('relays/create_relay' , {Opc});
 });
 
 /////////////////// VISTA EDIT RELAY//////////////////////
 router.get('/relays/edit/:id', isAuthenticated, async (req, res) => {           
     
-    const Relay = await relay.findById(req.params.id).lean()
-    res.render('relays/edit_relay', {Relay})
+    const Relay = await relay.findById(req.params.id).lean();
+    res.render('relays/edit_relay', {Relay});
 });
 
 ////////////////////////////////////////////////////////////
@@ -65,55 +64,61 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
     const {
         relay_name, 
         relay_id, 
+
         server_on,
         key_on,
         value_on,
+
         server_off,
         key_off,
         value_off} = req.body;
 
     const errors = []
     // console.log(req.body);
+
+    if(!relay_name || !relay_id || !server_on || !key_on || !server_off || !key_off){
+        errors.push({text:'Complete todos los campos'})
+    }else if(value_on == '' || value_off == ''){
+        errors.push({text:'Complete todos los campos'})
+    }
     
-    if(relay_name==''){
-        errors.push( {text:'Inserte un nombre para el relay'})
-       }
-    if(relay_id==''){
-        errors.push({text:'Completa todos los campos'})
-    }
-    if(server_on==''){
-        errors.push({text:'Completa todos los campos'})
-    }
-    if(key_on==''){
-        errors.push({text:'Completa todos los campos'})
-    }
-    if(value_on==''){
-        errors.push({text:'Completa todos los campos'})
-    }
-    if(server_off==''){
-        errors.push({text:'Completa todos los campos'})
-    }
-    if(key_off==''){
-        errors.push({text:'Completa todos los campos'})
-    }
-    if(value_off==''){
-        errors.push({text:'Completa todos los campos'})
-    }
    
-    if(errors.length>0)   
-        res.render('create_opc',{errors,name,url})
-    else{ 
-        const checkopc = await Opc.findOne({url})
-        if(checkopc){
-            req.flash('error_msg','El servidor OPC ya existe')
-            res.redirect('/resources')
-        }
-        const opc = new Opc({name,url})
-        await opc.save();      
-        req.flash('success_msg', 'Servidor OPC creado satisfactoriamente!')
-        opcDriver.add(opc._id);
-        res.redirect('/resources')
+    if(errors.length>0){
+        res.render('relays/relays',{errors})
     }
+            const checkRelay_id = await relay.findOne({typeID: relay_id }).lean();
+            // const loginUser = await user.findOne({login:login})
+            
+            if(checkRelay_id.typeID){
+                req.flash('error_msg','Ya existe un Relay con este Id')
+                res.redirect('/relays')
+            }
+
+            //Creating the struct
+            const relayObj = {
+                'name': relay_name,
+                'type':'GENERIC_RELAY',
+                'typeID': relay_id,
+                'actions':{
+                    'ON':{
+                        'server': server_on,
+                        'key': key_on,
+                        'value': value_on
+                    },
+                    'OFF':{
+                        'server': server_off,
+                        'key': key_off,
+                        'value': value_off
+                        }
+                }
+            }
+
+            const Relay = new relay(relayObj)
+            await Relay.save();      
+            req.flash('success_msg', 'Relay creado satisfactoriamente!')
+            // securosDriver.add(relay._id);
+            res.redirect('/relays')
+        
 });
 
 

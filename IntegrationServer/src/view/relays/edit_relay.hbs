@@ -9,13 +9,19 @@
             <form action="/relay/edit/{{Relay._id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
 
-                 <div class="mb-3"> 
+                 <div class="mb-2"> 
+                    <label class="text-light mb-1" >Nombre</label>
+
                     <input type="text" id="login" class="form-control disable" name="name" placeholder="Nombre" value="{{Relay.name}}">
                 </div>
-                <div class="mb-3"> 
+                <div class="mb-2"> 
+                    <label class="text-light mb-1" >Tipo</label>
+
                     <input type="text" id="login" class="form-control disable" name="type" placeholder="Tipo" value={{Relay.type}}>
                 </div>
-                <div class="mb-3"> 
+                <div class="mb-4">
+                    <label class="text-light mb-1" >ID</label>
+
                     <input type="text" id="login" class="form-control disable" name="typeID" placeholder="Id" value={{Relay.typeID}}>
                 </div>
  

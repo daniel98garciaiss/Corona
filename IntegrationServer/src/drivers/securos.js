@@ -6,6 +6,12 @@ const relay = require('../models/securos');
 const opcConfig = require('../config/opc');
 
 
+async function add(_id)
+{
+    read(_id);
+    opcHealth(_id);
+}
+
 function relayHealth(_id)
 {
     setInterval(function(){
@@ -129,7 +135,7 @@ btn guardar
 
 */
 
-// exports.add = add;
+exports.add = add;
 // exports.test = test;
 exports.start = start;
 exports.write = write;

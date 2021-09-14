@@ -4,7 +4,7 @@ const {Schema} = mongoose;
 const SecurOSSchema = new Schema({
     name: { type:String, required:true},
     type: { type:String, required:true},
-    id:{ type:String, required:false, "default" : 'Desconectado'},
+    typeID:{ type:String, required:true},
     actions: { type:Array, "default" : [] }
 })
 
