@@ -16,19 +16,23 @@ const fs = require('fs');
 
 var messages;
 
+setInterval(function(){
+  var buff = Buffer.from([0x06]);
+  client.write(buff);
+  console.log("Hearthbeat");
+}, 20000);
+
 read_csv(function(){
     console.log("Message CSV successfully read");
     process_data();
 });
 
 var client = new net.Socket();
-client.connect(1027, '192.168.1.175', function() {
+client.connect(1027, '192.168.1.109', function() {
     console.log('Connected');
 });
 
 client.on('data', function(data) {
-    var buff = Buffer.from([6]);
-    client.write(buff);
     var data0 = data.toString();
     console.log('Received: ' + data0);
   try
@@ -50,7 +54,10 @@ client.on('data', function(data) {
   {
     console.log(e);
   } 
-    
+  var buff = Buffer.from([0x06]);
+  client.write(buff);
+  console.log("ACK");
+  
     //client.destroy(); // kill client after server's response
 });
 
