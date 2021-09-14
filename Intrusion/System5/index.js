@@ -8,6 +8,7 @@
  *SecurOS 10.9
  *
 */
+
 //Integration using Contact ID
 
 var net = require('net');
@@ -16,21 +17,37 @@ const fs = require('fs');
 
 var messages;
 
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Heartbeat Function//////////////////////////////////////////
+//Funcion para enviar cada 20 segundos un mensaje de ACK y mantener activa la comunicación//
+////////////////////////////////////////////////////////////////////////////////////////////
+
 setInterval(function(){
   var buff = Buffer.from([0x06]);
   client.write(buff);
   console.log("Hearthbeat");
 }, 20000);
 
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Read Csv Function///////////////////////////////////////////
+//Funcion que lee el csv en el que se almacena la traduccion de los codigos que se reciben//
+////////////////////////////////////////////////////////////////////////////////////////////
+
 read_csv(function(){
     console.log("Message CSV successfully read");
-    process_data();
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////Abrir el cliente para ecuchar al servidor///////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 var client = new net.Socket();
 client.connect(1027, '192.168.1.109', function() {
     console.log('Connected');
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////Recibir Datos////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 
 client.on('data', function(data) {
     var data0 = data.toString();
@@ -47,13 +64,31 @@ client.on('data', function(data) {
     var message = data0[20];
     var complement = data0[22];
     console.log(date,receptor,line,abonado,message,complement);
-    var alarm=find_message(message);
-    console.log(alarm)
+    var [event,type] = find_message(event_code.toString());
+            console.log(event,type);
+            if(event==undefined)
+                event="Evento no registrado";
+            if(type==undefined)
+                type="INFO";
+
+            json = {
+                "receiver":receiver,
+                "panel":acount,
+                "cid":cid,
+                "event_code":event_code,
+                "comment":event,
+                "event":type,
+                "partition":partition,
+                "sensor":contact
+            }
+            console.log(json);
+            sendSecurOS(json);
   } 
   catch(e)
   {
     console.log(e);
   } 
+  //Enviar ACK
   var buff = Buffer.from([0x06]);
   client.write(buff);
   console.log("ACK");
@@ -65,11 +100,7 @@ client.on('close', function() {
     console.log('Connection closed');
 });
 
-/*read_csv(function(){
-    var find=find_message("E105");
-    console.log(find)
-});*/
-
+//Convertir csv en json
 function read_csv(callback)
 {
     const csvFilePath='messages.csv';
@@ -81,46 +112,44 @@ function read_csv(callback)
         callback(messages);
     })
 }
+
+//Buscar mensaje un json
 function find_message(message_to_find)
 {
     console.log("finding: "+message_to_find +"...")
     var found=0;
+    var type=0;
     for(var i = 0 ; i<messages.length;i++)
     {
         if(messages[i].Message == message_to_find)
         {
+            type = messages[i].Type
             found = messages[i].Alert;
-            return  found;
+            return  [found,type];
         }
         else
         {
             found = "not found";
+            type = "ALARM";
         }
     }
-    return  found;
+    return  [found,type];
 }
 
-function process_data(data)
+//Enviar mensaje a SecurOS
+function sendSecurOS(json)
 {
-       var data0 = "29 Jul 2021-10:33:14-01/C1-SG -01-000-0000-NVZ0100-TCP/IP 1 Printer Failed";
-    console.log('Received: ' + data0);
-  try
-  {
-    var pattern = /((\w|\s)*)-*?/ig;
-    var data0 = data0.match( pattern );
-    console.log("length: "+data0.length,"data 0: "+data0);
-    var date = new Date(data0[0]+" "+data0[2]+":"+data0[4]+":"+data0[6]);
-    var receptor = data0[14];
-    var line = data0[16];
-    var panel = data0[18];
-    var message = data0[20];
-    var complement = data0[22];
-    console.log(date,receptor,line,panel,message,complement);
-    var alarm=find_message(message);
-    console.log(alarm)
-  } 
-  catch(e)
-  {
-    console.log(e);
-  }
+    var options = {
+        'method': 'POST',
+        'url': 'http://127.0.0.1:3007/api/securos/event',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json) //JSON.stringify({"receiver":"1","panel":"1752","cid":"18","event_code":"E401","comment":"not found","event":"ALARM","partition":"49","sensor":"1","type":"SENSOR","typeID":"1"})
+
+        };
+        request(options, function(error, response) {
+            if (error) throw new Error(error);
+                console.log(response.body);
+        });
 }
