@@ -97,12 +97,13 @@ async function read(_id)
             var methods = _json.items;
             await Opc.findByIdAndUpdate(_id,{methods});
             }
-            console.log(_json)
+            // console.log(_json)
             json(_json)
         });    
     })  
 }
 
+//sin usar aun
 async function write(_id,key,value)
 {
     var opc = await Opc.findById(_id).lean();
@@ -130,7 +131,7 @@ async function write(_id,key,value)
             }
             _json = JSON.parse(res.body)
            
-            console.log(_json)
+            // console.log(_json)
             json(_json)
         });    
     })  

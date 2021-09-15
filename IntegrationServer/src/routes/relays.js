@@ -15,10 +15,7 @@ const {isAuthenticated, isNotAuthenticated, isAdmin} = require('../helpers/auth'
 const relay = require('../models/securos');
 const opc = require('../models/opc');
 
-// const securosDriver = require('../drivers/securos')
-
-
-// setTimeout(securosDriver.start, 30000);
+setTimeout(securosDriver.start, 30000);
 
 ////////////////////////////////////////////////////////////
 ////////////////////////// VISTAS ///////////////////////////
@@ -84,16 +81,18 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
     
    
     if(errors.length>0){
-        res.render('relays/relays',{errors})
+        var Opc = await opc.find().lean().sort({name: 'ascending'});
+        res.render('relays/create_relay' , {Opc, errors});
     }
-            const checkRelay_id = await relay.findOne({typeID: relay_id }).lean();
-            // const loginUser = await user.findOne({login:login})
-            
-            if(checkRelay_id.typeID){
-                req.flash('error_msg','Ya existe un Relay con este Id')
-                res.redirect('/relays')
-            }
 
+    try {
+        const relay_obj = await relay.findOne({typeID: relay_id }).lean();
+        
+        if(relay_obj){
+            errors.push({text:'Error! Ya existe un Relay con este Id'})
+            var Opc = await opc.find().lean().sort({name: 'ascending'});
+            res.render('relays/create_relay' , {Opc, errors});
+        }else{
             //Creating the struct
             const relayObj = {
                 'name': relay_name,
@@ -103,12 +102,14 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
                     'ON':{
                         'server': server_on,
                         'key': key_on,
-                        'value': value_on
+                        'value': value_on,
+                        'state': false,
                     },
                     'OFF':{
                         'server': server_off,
                         'key': key_off,
-                        'value': value_off
+                        'value': value_off,
+                        'state': false,
                         }
                 }
             }
@@ -116,9 +117,14 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
             const Relay = new relay(relayObj)
             await Relay.save();      
             req.flash('success_msg', 'Relay creado satisfactoriamente!')
-            // securosDriver.add(relay._id);
+            securosDriver.add(Relay._id);
             res.redirect('/relays')
-        
+        }
+
+    } catch (error) {
+        console.log('That did not go well in relays.js /relays/create')
+        console.log(error) 
+    }  
 });
 
 
@@ -126,10 +132,20 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
 router.put('/relay/edit/:id',isAuthenticated, async (req, res) => {           
     
     var {name,type,typeID} = req.body;
-   
-        await relay.findByIdAndUpdate(req.params.id,{name,type,typeID});
-        req.flash('success_msg', 'Relay editado satisfactoriamente!')
-        res.redirect('/relays')
+    const errors = []
+
+    const relay_obj = await relay.findOne({typeID: typeID }).lean();
+
+        if(relay_obj){
+            errors.push({text:'Error! Ya existe un Relay con este Id'})
+            const Relay = await relay.findById(req.params.id).lean();
+            res.render('relays/edit_relay', {Relay, errors});
+        }else{
+            await relay.findByIdAndUpdate(req.params.id,{name,type,typeID});
+            req.flash('success_msg', 'Relay editado satisfactoriamente!')
+            res.redirect('/relays')
+        }
+        
 });
 
 
