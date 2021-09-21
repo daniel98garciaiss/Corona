@@ -14,6 +14,9 @@ const csv = require('csvtojson');
 const fs = require('fs');
 var request = require('request');
 
+var logname 				= "Alarmnet Integration";
+var logs 		= require('../../logsset/logs');
+
 var messages;
 var client = new net.Socket();
 read_csv(function(){
@@ -21,6 +24,7 @@ read_csv(function(){
     
     client.connect(2000, '127.0.0.1', function() {
     console.log('Connected');
+    logs.Write("Client connected","INFO",logname)
     });
 });
 
@@ -29,12 +33,14 @@ client.on('data', function(data) {
     var json;
     var data0 = data.toString().trim();
     console.log('Received: ' + data0);
+    logs.Write('Received: ' + data0,"DEBUG",logname)
     if(data0=="00 OKAY @")
     {
       //ACK message
       var buff = Buffer.from([6]);
       client.write(buff);
       console.log("ACK send")
+      logs.Write("ACK send","TRACE",logname);
     }
     else
     {
@@ -78,6 +84,7 @@ client.on('data', function(data) {
             var buff = Buffer.from([6]);
             client.write(buff);
             console.log("ACK send")
+            logs.Write("ACK send","TRACE",logname);
         break;
         case 6:
         //Contact ID
@@ -118,12 +125,14 @@ client.on('data', function(data) {
             var buff = Buffer.from([6]);
             client.write(buff);
             console.log("ACK send")
+            logs.Write("ACK send","TRACE",logname);
         break;
         default:
             console.log("default case");
             var buff = Buffer.from([21]);
             client.write(buff);
             console.log("NAK send")
+            logs.Write("NAK send","TRACE",logname);
         break;
     }
     request(options, function(error, response) {
