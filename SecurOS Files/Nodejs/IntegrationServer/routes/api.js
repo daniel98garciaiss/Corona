@@ -172,6 +172,9 @@ router.post('/api/securos/eventreact', (req,res) =>{
     const {type,id,action} = req.body;
     //console.log(type, id, action);
     var react = regularExpression(action, "\\w+(?=REACT)");
+
+    TreeArray = {};
+
     securos.connect( async function (core) {
         let object = await core.getObject(type, id);
         try{
@@ -182,9 +185,15 @@ router.post('/api/securos/eventreact', (req,res) =>{
                     //console.log(parsedJson);
                     //console.log("parentId",parsedJson.parentId, "parentType", parsedJson.parentType );
                     if(parsedJson.Type !=  'EXTERNAL_SYSTEMS' && parsedJson.Type != 'INTEGRATION' && parsedJson.Type != 'SLAVE'  && parsedJson.Type != 'MAIN'){
-                        TreeArray =[];
-                        Complete.push ({'react': react[0] });
-                        getObjectTree(parsedJson.parentId, parsedJson.parentType, parsedJson.name, parsedJson.id);
+                        
+                        TreeArray.react = react[0];
+                        TreeArray.name =  parsedJson.name;
+                        TreeArray.id =  parsedJson.id;
+                        TreeArray.type = parsedJson.Type;
+
+                                              
+
+                        getObjectTree(parsedJson.parentId ,parsedJson.parentType,TreeArray);
                         
 
                         
@@ -198,21 +207,24 @@ router.post('/api/securos/eventreact', (req,res) =>{
     })
 
 })
-function getObjectTree(parentId, parentType, name, id){
+function getObjectTree(parentId,parentType,TreeArray){
 
-
-        TreeArray.push( {name,id} );
         securos.connect( async function (core) {
-            if(parentType != 'EXTERNAL_SYSTEMS' ){
+            if(TreeArray.parent.type != 'EXTERNAL_SYSTEMS' ){
                 let object = await core.getObject(parentType, parentId);
                 try{
                         var json = JSON.stringify(object);
                         var parsedJson = JSON.parse(json);
                         if(parsedJson != null  && parsedJson != undefined)
                         {
+                            var newParent ={}
+                            newParent.id =parentId
+                            newParent.type = parentType;
+                            newParent.name = parsedJson.name
+                            TreeArray.parent = newParent;
                             //console.log(parsedJson);
                             //console.log("parentId",parsedJson.parentId, "parentType", parsedJson.parentType );
-                            getObjectTree(parsedJson.parentId, parsedJson.parentType, parsedJson.name, parsedJson.id );
+                            getObjectTree(parsedJson.parentId, parsedJson.parentType,  TreeArray.parent);
                         }
 
                 }  
@@ -220,6 +232,9 @@ function getObjectTree(parentId, parentType, name, id){
                         reject(error);
                         console.error(error);
                 } 
+            }
+            else{
+                console.log(JSON.stringify(TreeArray))
             }
 
         })

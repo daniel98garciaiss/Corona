@@ -121,7 +121,7 @@ router.put('/users/change_password/:id',isAuthenticated, async (req,res) =>{
 router.post('/users/new/',isAuthenticated, async (req,res) => {                
     const {login,password,firstname,lastname, rol} = req.body
     const errors = []
-    console.log(req.body);
+    // console.log(req.body);
     if(login==''){
         errors.push( {text:'Por favor inserte un Login'})
        }
