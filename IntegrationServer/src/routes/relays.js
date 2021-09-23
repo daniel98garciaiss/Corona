@@ -14,6 +14,7 @@ const securosDriver = require('../drivers/securos');
 const {isAuthenticated, isNotAuthenticated, isAdmin} = require('../helpers/auth')
 const relay = require('../models/securos');
 const opc = require('../models/opc');
+const opcDriver = require('../drivers/opc')
 
 setTimeout(securosDriver.start, 30000);
 
@@ -181,4 +182,28 @@ router.delete('/relays/delete/:id',isAuthenticated, async (req,res) => {
     req.flash('success_msg', 'Relay eliminado satisfactoriamente!')
     res.redirect('/relays')
 });
+
+
+///////////////////// API ///////////////////////////
+
+router.post('/api/securos/ThirdPartyReact', async (req,res) => {           
+   const {react,name,id,type, parent} = req.body;
+   console.log(req.body)
+  
+   const Relay = await relay.findOne({typeID: id }).lean();
+
+   if(react == "ON"){
+       const {server, key, value} = Relay.actions[0].ON
+       opcDriver.write(server, key, value);
+   }
+
+   if(react == "OFF"){
+        const {server, key, value} = Relay.actions[0].OFF
+       opcDriver.write(server, key, value);
+   }
+//    opcDriver.write(opc_id,key,value);
+res.send('ok')
+
+});
+
 module.exports = router;

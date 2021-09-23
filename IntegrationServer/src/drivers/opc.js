@@ -112,6 +112,8 @@ async function read(_id)
 async function write(_id,key,value)
 {
     var opc = await Opc.findById(_id).lean();
+    var service = await Service.findOne({ name: "opc" }).lean();
+
     //console.log(opc)
     var newValue = `{"url":"${opc.url}",
                  "var":"${key}",
@@ -121,7 +123,7 @@ async function write(_id,key,value)
     return new Promise(json =>{
         var options = {
             'method': 'POST',
-            'url': `http://${opcConfig.ip}:${opcConfig.port}${opcConfig.pathWrite}`,
+            'url': `http://${service.ip}:${service.port}${opcConfig.pathWrite}`,
             'headers': {
               'Content-Type': 'application/json'
             },
