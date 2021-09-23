@@ -45,9 +45,14 @@ router.get('/relays/create',isAuthenticated, async (req,res) => {
 
 /////////////////// VISTA EDIT RELAY//////////////////////
 router.get('/relays/edit/:id', isAuthenticated, async (req, res) => {           
+    var Opc = await opc.find().lean().sort({name: 'ascending'});
     
     const Relay = await relay.findById(req.params.id).lean();
-    res.render('relays/edit_relay', {Relay});
+    var serverOn = await opc.findById(Relay.actions[0].ON.server).lean();
+    var serverOff = await opc.findById(Relay.actions[0].OFF.server).lean();
+
+
+    res.render('relays/edit_relay', {Relay, Opc, serverOn, serverOff});
 });
 
 ////////////////////////////////////////////////////////////
@@ -131,20 +136,41 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
 /////////////////// METODO EDIT RELAY//////////////////////
 router.put('/relay/edit/:id',isAuthenticated, async (req, res) => {           
     
-    var {name,type,typeID} = req.body;
-    const errors = []
+    const {
+        name,
+        server_on,
+        key_on,
+        value_on,
+        server_off,
+        key_off,
+        value_off} = req.body;
+    
+    const Relay = await relay.findById(req.params.id).lean();
 
-    const relay_obj = await relay.findOne({typeID: typeID }).lean();
-
-        if(relay_obj){
-            errors.push({text:'Error! Ya existe un Relay con este Id'})
-            const Relay = await relay.findById(req.params.id).lean();
-            res.render('relays/edit_relay', {Relay, errors});
-        }else{
-            await relay.findByIdAndUpdate(req.params.id,{name,type,typeID});
-            req.flash('success_msg', 'Relay editado satisfactoriamente!')
-            res.redirect('/relays')
+        const relayObj = {
+            'name': name,
+            'type':'GENERIC_RELAY',
+            'typeID': Relay.typeID,
+            'actions':{
+                'ON':{
+                    'server': server_on,
+                    'key': key_on,
+                    'value': value_on,
+                    'state': false,
+                },
+                'OFF':{
+                    'server': server_off,
+                    'key': key_off,
+                    'value': value_off,
+                    'state': false,
+                    }
+            }
         }
+
+       
+            await relay.findByIdAndUpdate(req.params.id, relayObj);
+            req.flash('success_msg', 'Relay editado con exito!')
+            res.redirect('/relays')
         
 });
 

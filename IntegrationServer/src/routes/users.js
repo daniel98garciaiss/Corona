@@ -60,11 +60,7 @@ router.get ('/users/change_password/:id',isAuthenticated,  async (req,res) =>{
     res.render('users/change_password',{User})
 });
 
-/////////////////// VISTA ADVANCE CONFIG //////////////////////
-router.get('/advance-config',isAuthenticated, (req,res) => {           
 
-    res.render('advance_config',{hola: "hola mundo"})
-});
 
 
 

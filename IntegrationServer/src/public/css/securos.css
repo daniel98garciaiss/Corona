@@ -20,10 +20,13 @@ body{
 	--bs-table-bg:#343c5c7a!important;
 }
 
-	
+*{
+
+}
 	
 .body{
-	padding-top: 70px;;
+	padding-top: 70px;
+
 }
 
 h3 {color:#fff}
