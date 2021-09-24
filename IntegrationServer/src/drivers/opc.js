@@ -4,6 +4,7 @@ const request = require('request');
 const { connect } = require('mongoose');
 const Opc = require('../models/opc');
 const opcConfig = require('../config/opc');
+const Service = require('../models/service');
 
 async function add(_id)
 {
@@ -70,11 +71,13 @@ setInterval(function(){
 async function read(_id)
 {
     var opc = await Opc.findById(_id).lean();
-    //console.log(opc)
+    var service = await Service.findOne({ name: "opc" }).lean();
+
+    // console.log(opc)
     return new Promise(json =>{
         var options = {
             'method': 'POST',
-            'url': `http://${opcConfig.ip}:${opcConfig.port}${opcConfig.path}`,
+            'url': `http://${service.ip}:${service.port}${opcConfig.path}`,
             'headers': {
               'Content-Type': 'application/json'
             },
@@ -85,17 +88,19 @@ async function read(_id)
             if (error)
             {
                 console.log('Servicio de OPC no responde, ', error);
+                var state = 'Desconectado';
+                await Opc.findByIdAndUpdate(_id,{state}).lean();
                 return false;
             }
             _json = JSON.parse(res.body)
             if(_json.connect)
             {
                 var state = (_json.connect === 'True') ? 'Conectado':'Desconectado';
-                await Opc.findByIdAndUpdate(_id,{state,methods});
+                await Opc.findByIdAndUpdate(_id,{state,methods}).lean();
             }
             if(_json.items){
             var methods = _json.items;
-            await Opc.findByIdAndUpdate(_id,{methods});
+            await Opc.findByIdAndUpdate(_id,{methods}).lean();
             }
             // console.log(_json)
             json(_json)
@@ -107,6 +112,8 @@ async function read(_id)
 async function write(_id,key,value)
 {
     var opc = await Opc.findById(_id).lean();
+    var service = await Service.findOne({ name: "opc" }).lean();
+
     //console.log(opc)
     var newValue = `{"url":"${opc.url}",
                  "var":"${key}",
@@ -116,7 +123,7 @@ async function write(_id,key,value)
     return new Promise(json =>{
         var options = {
             'method': 'POST',
-            'url': `http://${opcConfig.ip}:${opcConfig.port}${opcConfig.pathWrite}`,
+            'url': `http://${service.ip}:${service.port}${opcConfig.pathWrite}`,
             'headers': {
               'Content-Type': 'application/json'
             },

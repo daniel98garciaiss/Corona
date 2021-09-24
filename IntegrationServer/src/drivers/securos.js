@@ -106,7 +106,7 @@ async function send_event(Body){
               'Content-Type': 'application/json'
             },
 
-            body: Body
+            body: JSON.stringify(Body)
             
         };
 
