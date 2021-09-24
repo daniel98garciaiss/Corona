@@ -11,6 +11,7 @@ function Update(o)
     suffix = ""
     switch (o.system.type) {
         case "GENERIC_AREA":
+        case "GENERIC_AREA_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = "_UNKNOWN"
@@ -22,7 +23,7 @@ function Update(o)
                 case "ARMED_EARLY":
                 case "FORCED_ARMING":
                 case "LATE_TO_ARM":
-                    suffix = "__ARMED"
+                    suffix = "_ARMED"
                     break
                 case "DISARMED":
                 case "DISARMED_EARLY":
@@ -42,6 +43,7 @@ function Update(o)
               break
 
         case "GENERIC_DOOR":
+        case "GENERIC_DOOR_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = ""
@@ -81,7 +83,8 @@ function Update(o)
             }
             break
 
-        case "GENERIC_FIRE_DETECTOR":
+        case "GENERIC_FIRE":
+        case "GENERIC_FIRE_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = ""
@@ -107,7 +110,8 @@ function Update(o)
             }
             break
 
-        case "GENERIC_SMOKE_DETECTOR":
+        case "GENERIC_SMOKE":
+        case "GENERIC_SMOKE_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = ""
@@ -134,6 +138,7 @@ function Update(o)
             break
 
         case "GENERIC_INPUT":
+        case "GENERIC_INPUT_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = ""
@@ -160,6 +165,7 @@ function Update(o)
             break
 
         case "GENERIC_SENSOR":
+        case "GENERIC_SEN_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = ""
@@ -186,6 +192,7 @@ function Update(o)
             break
 
         case "GENERIC_OUTPUT":
+        case "GENERIC_OUT_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = ""
@@ -214,6 +221,7 @@ function Update(o)
             break
 
         case "GENERIC_RELAY":
+        case "GENERIC_RELAY_MO":
             switch (o.system.state) {
                 case "UNKNOWN":
                     suffix = "_UNKNOWN"
@@ -237,6 +245,34 @@ function Update(o)
                 default:
                   suffix =""
                   break
+            }
+            break
+
+        case "GENERIC_LIGHT":
+        case "GENERIC_LIGHT_MO":
+            switch (o.system.state) {
+                case "UNKNOWN":
+                    suffix = "_UNKNOWN"
+                    break
+                case "TAMPERED":
+                    suffix = "_TAMPERED"
+                    break
+                case "OFF":
+                case "DEACTIVATED":
+                case "CONNECTED":
+                    suffix = "_CONNECTED"
+                    break
+                case "ACTVATED":
+                case "ON":
+                    suffix = "_ACTVATED"
+                    o.blinking = true
+                    break
+                case "DISCONNECTED":
+                    suffix = "_DISCONNECTED"
+                    break
+                default:
+                    suffix = ""
+                    break
             }
             break
 
@@ -328,9 +364,9 @@ area.uninitializedIcon = "GENERIC_AREA.png"
 door = Object.assign({}, IntegrationServer)
 door.uninitializedIcon = "GENERIC_DOOR.png"
 fireDetector = Object.assign({}, IntegrationServer)
-fireDetector.uninitializedIcon = "GENERIC_FIRE_DETECTOR.png"
+fireDetector.uninitializedIcon = "GENERIC_FIRE.png"
 smokeDetector = Object.assign({}, IntegrationServer)
-smokeDetector.uninitializedIcon = "GENERIC_SMOKE_DETECTOR.png"
+smokeDetector.uninitializedIcon = "GENERIC_SMOKE.png"
 input = Object.assign({}, IntegrationServer)
 input.uninitializedIcon = "GENERIC_INPUT.png"
 gensensor = Object.assign({}, IntegrationServer)
@@ -339,6 +375,26 @@ output = Object.assign({}, IntegrationServer)
 output.uninitializedIcon = "GENERIC_OUTPUT.png"
 relay = Object.assign({}, IntegrationServer)
 relay.uninitializedIcon = "GENERIC_RELAY.png"
+light = Object.assign({}, IntegrationServer)
+light.uninitializedIcon = "GENERIC_LIGHT.png"
+areaMO = Object.assign({}, IntegrationServer)
+areaMO.uninitializedIcon = "GENERIC_AREA_MO.png"
+doorMO = Object.assign({}, IntegrationServer)
+doorMO.uninitializedIcon = "GENERIC_DOOR_MO.png"
+fireDetectorMO = Object.assign({}, IntegrationServer)
+fireDetectorMO.uninitializedIcon = "GENERIC_FIRE_MO.png"
+smokeDetectorMO = Object.assign({}, IntegrationServer)
+smokeDetectorMO.uninitializedIcon = "GENERIC_SMOKE_MO.png"
+inputMO = Object.assign({}, IntegrationServer)
+inputMO.uninitializedIcon = "GENERIC_INPUT_MO.png"
+gensensorMO = Object.assign({}, IntegrationServer)
+gensensorMO.uninitializedIcon = "GENERIC_SEN_MO.png"
+outputMO = Object.assign({}, IntegrationServer)
+outputMO.uninitializedIcon = "GENERIC_OUT_MO.png"
+relayMO = Object.assign({}, IntegrationServer)
+relayMO.uninitializedIcon = "GENERIC_RELAY.png"
+lightMO = Object.assign({}, IntegrationServer)
+lightMO.uninitializedIcon = "GENERIC_LIGHT_MO.png"
 receiver = Object.assign({}, IntegrationServer)
 receiver.uninitializedIcon = "RECEIVER.png"
 panel = Object.assign({}, IntegrationServer)
@@ -350,12 +406,22 @@ sensor.uninitializedIcon = "SENSOR.png"
 
 Map.registerType("GENERIC_AREA", area)
 Map.registerType("GENERIC_DOOR", door)
-Map.registerType("GENERIC_FIRE_DETECTOR", fireDetector)
-Map.registerType("GENERIC_SMOKE_DETECTOR", smokeDetector)
+Map.registerType("GENERIC_FIRE", fireDetector)
+Map.registerType("GENERIC_SMOKE", smokeDetector)
 Map.registerType("GENERIC_INPUT", input)
 Map.registerType("GENERIC_SENSOR", gensensor)
 Map.registerType("GENERIC_OUTPUT", output)
 Map.registerType("GENERIC_RELAY", relay)
+Map.registerType("GENERIC_LIGHT", light)
+Map.registerType("GENERIC_AREA_MO", areaMO)
+Map.registerType("GENERIC_DOOR_MO", doorMO)
+Map.registerType("GENERIC_FIRE_MO", fireDetectorMO)
+Map.registerType("GENERIC_SMOKE_MO", smokeDetectorMO)
+Map.registerType("GENERIC_INPUT_MO", inputMO)
+Map.registerType("GENERIC_SEN_MO", gensensorMO)
+Map.registerType("GENERIC_OUT_MO", outputMO)
+Map.registerType("GENERIC_RELAY_MO", relayMO)
+Map.registerType("GENERIC_LIGHT_MO", lightMO)
 Map.registerType("RECEIVER", receiver)
 Map.registerType("PANEL", panel)
 Map.registerType("PARTITION", partition)
