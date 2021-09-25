@@ -84,32 +84,43 @@ namespace Integration_Server
             var action = msg.GetMessageAction();
             var type = msg.GetMessageType();
             var id = msg.GetMessageId();
-            if (!type.Equals("MAIN") && !type.Equals("SLAVE") && !type.Equals("INTEGRATION") && !type.Equals("EXTERNAL_SYSTEMS"))
+            try
             {
-                //iidkManager.SendMessage(type+"|"+ id +"|"+action+"-REACT");
-                //string json = "{\"type\":\"" + type + "\",\"id\":\"" + id + "\",\"action\":\"" + action+" -REACT" + "\"}";
-                string server = ConfigurationManager.AppSettings["ServerListener"];
-                string port = ConfigurationManager.AppSettings["ServerListenerPort"];
-                var url = "http://" + server + ":" + port + "/api/securos/eventreact";
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = "POST";
-
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                if (!type.Equals("MAIN") && !type.Equals("SLAVE") && !type.Equals("INTEGRATION") && !type.Equals("EXTERNAL_SYSTEMS"))
                 {
-                    string json = "{\"type\":\"" + type + "\"," +
-                                  "\"id\":\"" + id + "\"," +
-                                  "\"action\":\"" + action + "REACTION" + "\"}";
+                    //iidkManager.SendMessage(type+"|"+ id +"|"+action+"-REACT");
+                    //string json = "{\"type\":\"" + type + "\",\"id\":\"" + id + "\",\"action\":\"" + action+" -REACT" + "\"}";
+                    string server = ConfigurationManager.AppSettings["ServerListener"];
+                    string port = ConfigurationManager.AppSettings["ServerListenerPort"];
+                    var url = "http://" + server + ":" + port + "/api/securos/eventreact";
+                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                    httpWebRequest.ContentType = "application/json";
+                    httpWebRequest.Method = "POST";
 
-                    streamWriter.Write(json);
-                }
+                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                    {
+                        string json = "{\"type\":\"" + type + "\"," +
+                                      "\"id\":\"" + id + "\"," +
+                                      "\"action\":\"" + action + "REACTION" + "\"}";
 
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var result = streamReader.ReadToEnd();
+                        streamWriter.Write(json);
+                    }
+
+                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result = streamReader.ReadToEnd();
+                        Log.Write(result, "DEBUG", Logs_Name);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                
+                Log.Write("Event Sending or receiving a Reaction from SecurOS: " + ex.Message, "ERROR", Logs_Name);
+
+            }
+
 
         }
 

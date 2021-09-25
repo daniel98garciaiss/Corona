@@ -23,6 +23,9 @@
                                                 "type": "GENERIC_RELAY"
                                         },
                                         {
+                                                "type": "GENERIC_LIGHT"
+                                        },
+                                        {
                                                 "type": "GENERIC_SENSOR"
                                         },
                                         {
@@ -52,6 +55,9 @@
                                         },
                                         {
                                                 "type": "GENERIC_RELAY_MO"
+                                        },
+                                        {
+                                                "type": "GENERIC_LIGHT_MO"
                                         },
                                         {
                                                 "type": "GENERIC_SEN_MO"

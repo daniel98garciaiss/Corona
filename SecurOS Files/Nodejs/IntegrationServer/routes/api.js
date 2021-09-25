@@ -4,7 +4,25 @@ const router = express.Router();
 const request = require('request');
 const fs = require ('fs');
 var Regex = require("regex");
+const { triggerAsyncId } = require('async_hooks');
 var TreeArray =[];
+
+
+function regularExpression(text, regexp){
+    var re = new RegExp(regexp);
+    //console.log(re);
+    var r  = text.match(re);
+    //console.log(r);
+    if(r != null){
+        //console.log(r.length);
+        r.forEach(element => {
+            //console.log(element);
+        });
+        return r;
+    }
+    else 
+        return "";
+}
 
 router.get('/api/securos/', (req,res) => {
    res.send('Connected to SecurOS External systems Api')
@@ -83,9 +101,9 @@ router.post('/api/securos/event', (req,res) =>{
             id = id
     }
     securos.connect( async function (core) {
-        //console.log(type,id,Event,comment )
+        console.log(type,id,Event,comment )
         core.sendEvent(type,id,Event,{'comment':comment});
-        core.disconnect();
+
     })
     res.send('ok')
 })
@@ -109,7 +127,6 @@ router.get('/api/securos/item', (req,res) =>{
                 } */
 
         });
-        core.disconnect();
         res.send('ok')
     });
     /*pg.query("SELECT * FROM \"OBJ_"+type+"\" WHERE id = \'"+id+"\'", function(resp)
@@ -134,7 +151,6 @@ const {type,id,action} = req.body;
         //GETCHILDRENcore.(type,id,action)
         //Construir json
         var json ;
-        core.disconnect();
         res.send(json)
     })
 
@@ -144,37 +160,146 @@ router.post('/api/securos/react', (req,res) =>{
     const {type,id,action} = req.body;
     securos.connect( async function (core) {
         core.doReact(type,id,action)
-        core.disconnect();
+
         res.send('ok')
     })
 
 
 })
 
-function regularExpression(text, regexp){
-    var re = new RegExp(regexp);
-    //console.log(re);
-    var r  = text.match(re);
-    //console.log(r);
-    if(r != null){
-        //console.log(r.length);
-        r.forEach(element => {
-            //console.log(element);
-        });
-        return r;
-    }
-    else 
-        return "";
+
+function promiseParent(tree, type, id) {
+    var parent;
+ return new Promise((resolve,reject) => {
+    securos.connect( async function (core) {
+        let object = await core.getObject(type, id);
+
+       //try{
+               var json = JSON.stringify(object);
+               var parsedJson = JSON.parse(json);
+               if(parsedJson != null  && parsedJson != undefined )
+               {
+                       if(parsedJson.type !=  'EXTERNAL_SYSTEMS' && parsedJson.type != 'INTEGRATION'){   
+                                                     
+                           parent = {
+                               "name":  parsedJson.name,
+                               "id": parsedJson.id,
+                               "type": parsedJson.type
+                           }   
+                           console.log('tree', tree, parent)       
+                           if(tree.parent != null && tree.parent != undefined){
+                                for (const element2 of Object.keys(tree.parent)) {
+                                    console.log('element2', element2);
+                                    if(element2 == 'parent' ){                                
+                                        for (const element3 of Object.keys(tree.parent[element2])) {                                            
+                                            console.log('element3', element3)   
+                                            if(element3 == 'parent'){                                               
+                                                for (const element4 of Object.keys(tree.parent[element2].parent[element3])) {
+                                                    console.log('element4',tree.parent[element2].parent[element3]);
+                                                    if(element4 == 'parent'){
+                                                        for (const element5 of Object.keys(tree.parent[element2].parent[element3].parent[element4])) {
+                                                            console.log('element5', tree.parent[element2].parent[element3].parent[element4]);
+                                                            if(element5 == 'parent'){
+                                                                console.log('element5.parent', tree)
+                                                            }
+                                                            else{
+                                                                
+                                                                if(tree.parent.parent.parent.parent.parent == undefined || tree.parent.parent.parent.parent.parent ==null ){
+                                                                    tree.parent.parent.parent.parent.parent = parent;
+                                                                    console.log('tree.parent.parent.parent.parent.parent', tree.parent.parent.parent.parent.parent)
+                                                                    console.log('tree.', tree)
+                                                                    break;
+                                                                } 
+                                                            }
+                                                        }
+                                                    }
+                                                    else{
+                                                       
+                                                        if(tree.parent.parent.parent.parent == undefined || tree.parent.parent.parent.parent ==null ){
+                                                                tree.parent.parent.parent.parent = parent;
+                                                                console.log('tree.parent.parent.parent.parent', tree.parent.parent.parent.parent)
+                                                                console.log('tree.', tree)
+                                                                break;
+
+                                                        }                                                     
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                               
+                                                if(tree.parent.parent.parent == undefined || tree.parent.parent.parent ==null ){
+                                                    tree.parent.parent.parent = parent;
+                                                    console.log('tree.parent.parent.parent', tree.parent.parent.parent)
+                                                    console.log('tree.', tree)
+                                                    break;
+                                                } 
+                                                
+                                            }
+
+                                       }  
+                                    }
+                                    else{
+                                        
+                                        if(tree.parent.parent == undefined || tree.parent.parent ==null){
+                                            tree.parent.parent = parent; 
+                                            console.log('tree.parent.parent', tree.parent.parent)
+                                            console.log('tree.', tree)
+                                            break;
+                                        } 
+                                    }                                
+
+                               }    
+                            }
+                           else                        
+                                tree.parent = parent;   
+                           console.log('ENTRO EN Promise', tree) 
+                           if( parsedJson.type !=  'EXTERNAL_SYSTEMS' && parsedJson.parentType !=  'INTEGRATION'){
+                            securos.connect( async function (core) {
+                                let object2 = await core.getObject(parsedJson.parentType, parsedJson.parentId);
+                                var json2 = JSON.stringify(object2);
+                                var parsedJson2 = JSON.parse(json2);                               
+                                if(parsedJson2 != null  && parsedJson2 != undefined)
+                                {
+                                    setTimeout(function () {promiseParent(tree, parsedJson2.type,parsedJson2.id).then(newParent2 =>{
+                                        resolve(tree);
+                                    })}, 30)
+                                }
+                            })
+                           }
+
+                       }
+                       else {
+                           resolve('');
+                       }                
+               }
+       });
+           
+    });
 }
 
+function eventHandlerReact(e){
+    console.log('eventHandlerReact',e);
+    console.log(JSON.stringify(e));
+    var options = {
+          'method': 'POST',
+          'url': 'http://127.0.0.1:3035/api/securos/ThirdPartyReact',
+          'headers': {
+            'Content-Type': 'application/json'
+          },         
+          body: JSON.stringify(e)
+        };
+        request(options, function (error, response) {
+          if (error) throw new Error(error);
+          console.log(response.body);
+        });
+    
+}
+
+
 router.post('/api/securos/eventreact', (req,res) =>{
-    //console.log(req.body);
     const {type,id,action} = req.body;
-    //console.log(type, id, action);
     var react = regularExpression(action, "\\w+(?=REACT)");
-
     TreeArray = {};
-
     securos.connect( async function (core) {
         let object = await core.getObject(type, id);
         try{
@@ -182,81 +307,29 @@ router.post('/api/securos/eventreact', (req,res) =>{
                 var parsedJson = JSON.parse(json);
                 if(parsedJson != null  && parsedJson != undefined)
                 {
-                    //console.log(parsedJson);
-                    //console.log("parentId",parsedJson.parentId, "parentType", parsedJson.parentType );
+
                     if(parsedJson.Type !=  'EXTERNAL_SYSTEMS' && parsedJson.Type != 'INTEGRATION' && parsedJson.Type != 'SLAVE'  && parsedJson.Type != 'MAIN'){
                         
                         TreeArray.react = react[0];
                         TreeArray.name =  parsedJson.name;
                         TreeArray.id =  parsedJson.id;
-                        TreeArray.type = parsedJson.Type;
-
-                                              
-
-                        getObjectTree(parsedJson.parentId ,parsedJson.parentType,TreeArray);
-                        
-
-                        
+                        TreeArray.type = parsedJson.type;
                     }
                 }
+                promiseParent(TreeArray, parsedJson.parentType, parsedJson.parentId).then( newParent =>{  
+                    console.log('newParent del post', newParent);                          
+                        res.send(newParent);
+                        eventHandlerReact(newParent);
+                })              
+                
         }  
         catch(error){
                 console.error(error);
-        } 
-        res.send(ok);
-    })
-
+                res.send('ERROR');   
+        }       
+   })
 })
-function getObjectTree(parentId,parentType,TreeArray){
 
-        securos.connect( async function (core) {
-            if(TreeArray.parent.type != 'EXTERNAL_SYSTEMS' ){
-                let object = await core.getObject(parentType, parentId);
-                try{
-                        var json = JSON.stringify(object);
-                        var parsedJson = JSON.parse(json);
-                        if(parsedJson != null  && parsedJson != undefined)
-                        {
-                            var newParent ={}
-                            newParent.id =parentId
-                            newParent.type = parentType;
-                            newParent.name = parsedJson.name
-                            TreeArray.parent = newParent;
-                            //console.log(parsedJson);
-                            //console.log("parentId",parsedJson.parentId, "parentType", parsedJson.parentType );
-                            getObjectTree(parsedJson.parentId, parsedJson.parentType,  TreeArray.parent);
-                        }
 
-                }  
-                catch(error){
-                        reject(error);
-                        console.error(error);
-                } 
-            }
-            else{
-                console.log(JSON.stringify(TreeArray))
-            }
-
-        })
-        console.log(TreeArray);
-}
-
-function eventHandlerReact(e){
-console.log('eventHandlerReact',e);
- var options = {
-      'method': 'POST',
-      'url': 'http://127.0.0.1:3002/api/securos/react',
-      'headers': {
-        'Content-Type': 'application/json'
-      },
-      //body: JSON.stringify({"type":"GENERIC_SENSOR","id":"1","action":"ALARMED"})
-      body: JSON.stringify(e)
-    };
-    request(options, function (error, response) {
-      if (error) throw new Error(error);
-      console.log(response.body);
-    });
-
-}
 
 module.exports = router;
