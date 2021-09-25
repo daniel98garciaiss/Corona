@@ -12,6 +12,13 @@ const opc = require('../../models/opc')
 const {isAuthenticated, isAdmin} = require('../../helpers/auth')
 
 
+/////////////////// VISTA RELAYS //////////////////////
+router.get('/resources/create',isAuthenticated, async (req,res) => {           //ASYNC
+
+
+    res.render('resources_to_create');
+});
+
 router.get('/resources',isAuthenticated, async (req,res) => {           //ASYNC
     var Opc = await opc.find().lean().sort({name: 'ascending'});
     var Restapi = await restapi.find().lean().sort({name: 'ascending'});
