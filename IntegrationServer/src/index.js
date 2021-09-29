@@ -21,10 +21,9 @@ const passport = require('passport')
 const config = require('./config/opc')
 const server = http.createServer(app);
 const socketio = require('socket.io')(server)
-
-
 const io = socketio.listen(server)
 
+module.exports = socketio;
 
 require('./database')
 require('./config/passport')
@@ -106,6 +105,5 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + '/public'));
 //server is listenning
 server.listen(port, function(){
-console.log("Server init at ",port )
-
+    console.log(`SERVER Listening http://localhost:${port}`)
 });

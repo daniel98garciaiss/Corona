@@ -5,6 +5,7 @@ const { connect } = require('mongoose');
 const Opc = require('../models/opc');
 const opcConfig = require('../config/opc');
 const Service = require('../models/service');
+const socket = require('../index');
 
 async function add(_id)
 {
@@ -71,10 +72,14 @@ setInterval(function(){
 async function read(_id)
 {
     var opc = await Opc.findById(_id).lean();
+
     var service = await Service.findOne({ name: "opc" }).lean();
 
+    // traer todos los opc para compar mas a adelante a ver si alguno fue modificado
+    var opcsBeforeModifications = await Opc.find().lean().sort({name: 'ascending'});
+
     // console.log(opc)
-    return new Promise(json =>{
+    return new Promise(json => {
         var options = {
             'method': 'POST',
             'url': `http://${service.ip}:${service.port}${opcConfig.path}`,
@@ -84,28 +89,47 @@ async function read(_id)
             body: `{"url":"${opc.url}"}`
         };
 
+       
+
         request(options, async function (error, res) {
             if (error)
             {
                 console.log('Servicio de OPC no responde, ', error);
                 var state = 'Desconectado';
                 await Opc.findByIdAndUpdate(_id,{state}).lean();
+
+                var newOpcs = await Opc.find().lean().sort({name: 'ascending'});
+                socket.emit("modified-resourse",{newOpcs})
                 return false;
             }
-            _json = JSON.parse(res.body)
+            _json = await JSON.parse(res.body)
             if(_json.connect)
             {
                 var state = (_json.connect === 'True') ? 'Conectado':'Desconectado';
+                
                 await Opc.findByIdAndUpdate(_id,{state,methods}).lean();
             }
+            
             if(_json.items){
-            var methods = _json.items;
-            await Opc.findByIdAndUpdate(_id,{methods}).lean();
+              var methods = _json.items;
+              await Opc.findByIdAndUpdate(_id,{methods}).lean();
             }
+
+          var newOpcs = await Opc.find().lean().sort({name: 'ascending'});
+            
+          if(asyncStringify(opcsBeforeModifications) !== asyncStringify(newOpcs)){
+            socket.emit("modified-resourse",{newOpcs})
+          }
             // console.log(_json)
             json(_json)
         });    
     })  
+}
+
+function asyncStringify(str) {
+  return new Promise((resolve, reject) => {
+    resolve(JSON.stringify(str));
+  });
 }
 
 //sin usar aun

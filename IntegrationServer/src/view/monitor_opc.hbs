@@ -22,7 +22,7 @@
       <th scope="col">Valor</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="resource_variables">
       
     {{#each opc.methods}}
     {{this.length}}
@@ -37,5 +37,10 @@
   </tbody>
 </table>
 </div>
-<script src="/js/monitor.js"></script>
 {{/if}}
+<script>
+  
+  let Opc = `{{opc._id}}`
+  monitorOpc(Opc);
+
+</script>

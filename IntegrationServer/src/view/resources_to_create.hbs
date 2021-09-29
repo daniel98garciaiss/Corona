@@ -12,7 +12,7 @@
                     </div>
                     <div id="bosh" id="bosh" class=" col resource-container d-flex flex-column align-items-center text-light rounded m-2">
                         <i class=" icon fas fa-broadcast-tower resource-icon m-4 "></i>
-                        <h6 class="h-text mb-3">Receptora Bosh</h6>
+                        <h6 class="h-text mb-3">Receptora Bosch</h6>
                     </div>
                 </div>
                 {{!-- ---------columna 2----------------------- --}}
@@ -21,9 +21,9 @@
                         <i class=" icon fas fa-broadcast-tower resource-icon m-4 "></i>
                         <h6 class="h-text mb-3">Receptora SystemV</h6>
                     </div>
-                    <div id="alarnet" class=" col resource-container d-flex flex-column align-items-center text-light rounded m-2">
+                    <div id="alarmnet" class=" col resource-container d-flex flex-column align-items-center text-light rounded m-2">
                         <i class=" icon fas fa-broadcast-tower resource-icon m-4 "></i>
-                        <h6 class="h-text mb-3">Receptora Alarnet</h6>
+                        <h6 class="h-text mb-3">Receptora AlarmNet</h6>
                     </div>
                 </div>
                 {{!-- ------------columna 3-------------------- --}}
@@ -48,7 +48,6 @@
 
     for (let i = 0; i < resource.length; i++) {
      resource[i].addEventListener("click", function(){
-        console.log(this.id);
         returnUrl = window.location.protocol + "//" + window.location.host + "/resources/" + this.id;
         window.location.href = returnUrl;
     });

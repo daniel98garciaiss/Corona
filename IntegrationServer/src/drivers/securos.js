@@ -37,12 +37,12 @@ async function monitoring_relay_key(_id)
        Object.entries(relay.actions[0]).forEach(async([key, action]) =>{
 
         var opc = await Opc.findById(action.server).lean();
-    console.log("---------------------------------------------------------"  )
-    console.log("key:"+key)
+    // console.log("---------------------------------------------------------"  )
+    // console.log("key:"+key)
 
-    console.log("opc:"+opc.methods[0][action.key] )
-    console.log("relay:"+action.value)
-    console.log("state:"+action.state)
+    // console.log("opc:"+opc.methods[0][action.key] )
+    // console.log("relay:"+action.value)
+    // console.log("state:"+action.state)
 
     if(key == "ON"){
             // compare the value bettwen a opc metodhs specific and relay action
