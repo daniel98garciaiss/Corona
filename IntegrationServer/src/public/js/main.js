@@ -69,9 +69,9 @@ async function renderVariables(data){
     }).join(" ");
 
         // console.log(newHtml);
-        // if(document.getElementById('resource_variables')){
+        if(document.getElementById('resource_variables')){
             document.getElementById('resource_variables').innerHTML= newHtml;
-        // }
+        }
 }
 
 

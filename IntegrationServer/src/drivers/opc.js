@@ -15,7 +15,7 @@ async function add(_id)
 
 async function start()
 {
-   var opc = await Opc.find().lean();
+   let opc = await Opc.find().lean();
    opc.forEach(element => {
       opcHealth(element._id);
    });
@@ -46,7 +46,7 @@ x.registerListener(function(val) {
 function test()
 {
   x.a = 20;
-    var options = {
+    let options = {
       'method': 'POST',
       'url': 'http://127.0.0.1:3001/api/securos/event',
       'headers': {
@@ -71,16 +71,16 @@ setInterval(function(){
 
 async function read(_id)
 {
-    var opc = await Opc.findById(_id).lean();
+    let opc = await Opc.findById(_id).lean();
 
-    var service = await Service.findOne({ name: "opc" }).lean();
+    let service = await Service.findOne({ name: "opc" }).lean();
 
     // traer todos los opc para compar mas a adelante a ver si alguno fue modificado
-    var opcsBeforeModifications = await Opc.find().lean().sort({name: 'ascending'});
+    let opcsBeforeModifications = await Opc.find().lean().sort({name: 'ascending'});
 
     // console.log(opc)
     return new Promise(json => {
-        var options = {
+        let options = {
             'method': 'POST',
             'url': `http://${service.ip}:${service.port}${opcConfig.path}`,
             'headers': {
@@ -95,26 +95,32 @@ async function read(_id)
             if (error)
             {
                 console.log('Servicio de OPC no responde, ', error);
-                var state = 'Desconectado';
+                let state = 'Desconectado';
                 await Opc.findByIdAndUpdate(_id,{state}).lean();
 
-                var newOpcs = await Opc.find().lean().sort({name: 'ascending'});
+                let newOpcs = await Opc.find().lean().sort({name: 'ascending'});
                 socket.emit("modified-resourse",{newOpcs})
                 return false;
             }
             _json = await JSON.parse(res.body)
             if(_json.connect)
             {
-                var state = (_json.connect === 'True') ? 'Conectado':'Desconectado';
+                let state = (_json.connect === 'True') ? 'Conectado':'Desconectado';
                 
-                if(_json.items){
-                  var methods = _json.items;
+                // if(_json.items){
+                  let methods = _json.items;
                   // await Opc.findByIdAndUpdate(_id,{methods}).lean();
                   await Opc.findByIdAndUpdate(_id,{state,methods}).lean();
-                }
+                // }
             }
 
-          var newOpcs = await Opc.find().lean().sort({name: 'ascending'});
+            if(_json.items){
+              let methods = _json.items;
+              // await Opc.findByIdAndUpdate(_id,{methods}).lean();
+              await Opc.findByIdAndUpdate(_id,{methods}).lean();
+            }
+
+          let newOpcs = await Opc.find().lean().sort({name: 'ascending'});
             
           if(asyncStringify(opcsBeforeModifications) !== asyncStringify(newOpcs)){
             socket.emit("modified-resourse",{newOpcs})
@@ -134,17 +140,17 @@ function asyncStringify(str) {
 //sin usar aun
 async function write(_id,key,value)
 {
-    var opc = await Opc.findById(_id).lean();
-    var service = await Service.findOne({ name: "opc" }).lean();
+    let opc = await Opc.findById(_id).lean();
+    let service = await Service.findOne({ name: "opc" }).lean();
 
     //console.log(opc)
-    var newValue = `{"url":"${opc.url}",
+    let newValue = `{"url":"${opc.url}",
                  "var":"${key}",
                  "val":"${value}"
                 }`
 
     return new Promise(json =>{
-        var options = {
+        let options = {
             'method': 'POST',
             'url': `http://${service.ip}:${service.port}${opcConfig.pathWrite}`,
             'headers': {
