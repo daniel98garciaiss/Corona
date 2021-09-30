@@ -11,11 +11,11 @@ module.exports =
             socket.on("monitorOpc", id => {
                 clearInterval(intervalRealTime);
 
-                console.log("opc id_______________"+id);
+                // console.log("opc id_______________"+id);
                 intervalRealTime = setInterval(async ()=>{
                     try {
                         var opc = await Opc.findOne({"_id": id});
-                        console.log(opc);
+                        // console.log(opc);
 
                         if(opc.methods[0]){
                             var methods = opc.methods[0];
@@ -26,7 +26,7 @@ module.exports =
                         console.log(error)
                     }
                   
-                }, 5000)
+                }, 500)
             })
         })
 

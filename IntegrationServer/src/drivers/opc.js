@@ -107,12 +107,11 @@ async function read(_id)
             {
                 var state = (_json.connect === 'True') ? 'Conectado':'Desconectado';
                 
-                await Opc.findByIdAndUpdate(_id,{state,methods}).lean();
-            }
-            
-            if(_json.items){
-              var methods = _json.items;
-              await Opc.findByIdAndUpdate(_id,{methods}).lean();
+                if(_json.items){
+                  var methods = _json.items;
+                  // await Opc.findByIdAndUpdate(_id,{methods}).lean();
+                  await Opc.findByIdAndUpdate(_id,{state,methods}).lean();
+                }
             }
 
           var newOpcs = await Opc.find().lean().sort({name: 'ascending'});
