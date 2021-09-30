@@ -14,11 +14,11 @@ module.exports =
                 // console.log("opc id_______________"+id);
                 intervalRealTime = setInterval(async ()=>{
                     try {
-                        var opc = await Opc.findOne({"_id": id});
+                        let opc = await Opc.findOne({"_id": id});
                         // console.log(opc);
 
-                        if(opc.methods[0]){
-                            var methods = opc.methods[0];
+                        if(opc.methods){
+                            let methods = opc.methods[0];
                             socket.emit("newVariables",{methods});
                         }
                         
@@ -26,7 +26,7 @@ module.exports =
                         console.log(error)
                     }
                   
-                }, 500)
+                }, 100)
             })
         })
 
