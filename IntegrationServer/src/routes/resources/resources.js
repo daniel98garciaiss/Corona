@@ -20,8 +20,8 @@ router.get('/resources/create',isAuthenticated, async (req,res) => {           /
 });
 
 router.get('/resources',isAuthenticated, async (req,res) => {           //ASYNC
-    var Opc = await opc.find().lean().sort({name: 'ascending'});
-    var Restapi = await restapi.find().lean().sort({name: 'ascending'});
+    let Opc = await opc.find().lean().sort({name: 'ascending'});
+    let Restapi = await restapi.find().lean().sort({name: 'ascending'});
     res.render('resources',{Opc,Restapi})
     
 });

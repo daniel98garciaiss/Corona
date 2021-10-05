@@ -102,7 +102,7 @@ async function read(_id)
                 socket.emit("modified-resourse",{newOpcs})
                 return false;
             }
-            _json = await JSON.parse(res.body)
+            let _json = await JSON.parse(res.body)
             if(_json.connect)
             {
                 let state = (_json.connect === 'True') ? 'Conectado':'Desconectado';
@@ -118,6 +118,7 @@ async function read(_id)
               let methods = _json.items;
               // await Opc.findByIdAndUpdate(_id,{methods}).lean();
               await Opc.findByIdAndUpdate(_id,{methods}).lean();
+              _json.items = null;
             }
 
           let newOpcs = await Opc.find().lean().sort({name: 'ascending'});

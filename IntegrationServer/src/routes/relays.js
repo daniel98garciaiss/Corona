@@ -25,7 +25,7 @@ setTimeout(securosDriver.start, 30000);
 /////////////////// VISTA RELAYS //////////////////////
 router.get('/relays',isAuthenticated, async (req,res) => {           //ASYNC
 
-    var Relays = await relay.find().lean().sort({name: 'ascending'});
+    let Relays = await relay.find().lean().sort({name: 'ascending'});
 
     res.render('relays/relays',{Relays});
 });
@@ -33,9 +33,9 @@ router.get('/relays',isAuthenticated, async (req,res) => {           //ASYNC
 /////////////////// VISTA CREATE RELAY//////////////////////
 router.get('/relays/create',isAuthenticated, async (req,res) => {           
     
-    var Opc = await opc.find().lean().sort({name: 'ascending'});
+    let Opc = await opc.find().lean().sort({name: 'ascending'});
 
-    // var methodsArray = [];
+    // let methodsArray = [];
     // for(let i=0; i<Opc.length; i++) {
         // methodsArray.push(Opc[i].methods);
         // console.log(Opc[i].methods)
@@ -46,11 +46,11 @@ router.get('/relays/create',isAuthenticated, async (req,res) => {
 
 /////////////////// VISTA EDIT RELAY//////////////////////
 router.get('/relays/edit/:id', isAuthenticated, async (req, res) => {           
-    var Opc = await opc.find().lean().sort({name: 'ascending'});
+    let Opc = await opc.find().lean().sort({name: 'ascending'});
     
     const Relay = await relay.findById(req.params.id).lean();
-    var serverOn = await opc.findById(Relay.actions[0].ON.server).lean();
-    var serverOff = await opc.findById(Relay.actions[0].OFF.server).lean();
+    let serverOn = await opc.findById(Relay.actions[0].ON.server).lean();
+    let serverOff = await opc.findById(Relay.actions[0].OFF.server).lean();
 
 
     res.render('relays/edit_relay', {Relay, Opc, serverOn, serverOff});
@@ -87,7 +87,7 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
     
    
     if(errors.length>0){
-        var Opc = await opc.find().lean().sort({name: 'ascending'});
+        let Opc = await opc.find().lean().sort({name: 'ascending'});
         res.render('relays/create_relay' , {Opc, errors});
     }
 
@@ -96,7 +96,7 @@ router.post('/relays/create',isAuthenticated, async (req,res) => {
         
         if(relay_obj){
             errors.push({text:'Error! Ya existe un Relay con este Id'})
-            var Opc = await opc.find().lean().sort({name: 'ascending'});
+            let Opc = await opc.find().lean().sort({name: 'ascending'});
             res.render('relays/create_relay' , {Opc, errors});
         }else{
             //Creating the struct

@@ -26,7 +26,7 @@ module.exports =
                         console.log(error)
                     }
                   
-                }, 100)
+                }, 300)
             })
         })
 

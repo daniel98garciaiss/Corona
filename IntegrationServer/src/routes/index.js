@@ -8,7 +8,7 @@ const path = require('path');
 const {isAuthenticated} = require('../helpers/auth')
 
 router.get('/', async (req,res) => {
-    var users = await user.find().lean().sort({login: 'asc'});
+    let users = await user.find().lean().sort({login: 'asc'});
     if(users.length===0)
     res.render('index');
     else
@@ -17,7 +17,7 @@ router.get('/', async (req,res) => {
 });
 
 router.get('/firsttime', async (req,res) => {
-    var users = await user.find().lean().sort({login: 'asc'});
+    let users = await user.find().lean().sort({login: 'asc'});
     if(users.length>0)
     res.redirect('/');
     else

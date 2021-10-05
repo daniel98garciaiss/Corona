@@ -33,12 +33,12 @@ router.post('/resources/opc/test', (req,res) => {
 
 /////////////////// GET - EDITAR OPC //////////////////////
 router.get('/resources/opc/:id',isAuthenticated, async (req,res) => {           //ASYNC
-    var opc = await Opc.findById(req.params.id).lean();
+    let opc = await Opc.findById(req.params.id).lean();
     res.render('edit_opc',{opc})
 });
 /////////////////// GET - MONITOR OPC //////////////////////
-router.get('/resources/opc/:id/monitor', async (req,res) =>{
-    var opc = await Opc.findById(req.params.id).lean();
+router.get('/resources/opc/:id/monitor',isAuthenticated, async (req,res) =>{
+    let opc = await Opc.findById(req.params.id).lean();
     res.render('monitor_opc',{opc})
 });
 
@@ -77,7 +77,7 @@ router.post('/resources/opc',[isAuthenticated, isAdmin], async (req,res) => {   
 /////////////////// PUT - EDITAR OPC //////////////////////
 router.put('/resources/opc/:id',isAuthenticated, async (req,res) =>{
     const errors = [];
-    var {name,url} = req.body;
+    let {name,url} = req.body;
  
     if(name==''){
         errors.push( {text:'Por favor inserte un Login'})
@@ -107,24 +107,24 @@ router.delete('/resources/opc/:id',[isAuthenticated, isAdmin], async (req,res) =
 ////////////////////////////////////////////////////////////
 
 router.get('/api/opc', async (req,res) =>{
-    var opc = await Opc.find().lean();
+    let opc = await Opc.find().lean();
     res.send(opc)
 });
 
 router.get('/api/opc/:id', async (req,res) =>{
-    var _id =req.params.id
-    var opc = await Opc.findOne({_id}).lean();
+    let _id =req.params.id
+    let opc = await Opc.findOne({_id}).lean();
     res.send(opc)
 });
 router.get('/api/opc/:id/methods/', async (req,res) =>{
-    var _id =req.params.id
-    var opc = await Opc.findOne({_id}).lean();
+    let _id =req.params.id
+    let opc = await Opc.findOne({_id}).lean();
     res.send(opc.methods)
 });
 router.get('/api/opc/:id/methods/:name', async (req,res) =>{
-    var _id =req.params.id
-    var opc = await Opc.findOne({_id}).lean();
-    var name = req.params.name;
+    let _id =req.params.id
+    let opc = await Opc.findOne({_id}).lean();
+    let name = req.params.name;
     res.send(opc.methods.name)
 });
 

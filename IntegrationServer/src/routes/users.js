@@ -39,7 +39,7 @@ router.get('/users', [isAuthenticated, isAdmin],  async(req,res) => {           
                      link:'/users/create'
                  }]
     };
-     var users = await user.find({"_id": {$ne : req.user._id}}).lean().sort({login: 'ascending'});
+     let users = await user.find({"_id": {$ne : req.user._id}}).lean().sort({login: 'ascending'});
      res.render('users/users',{users,toolbar})
 });
 
@@ -84,7 +84,7 @@ router.get('/users/logout',isAuthenticated, (req,res) => {
 /////////////////// METODO EDITAR USUARIOS //////////////////////
 router.put('/users/edit/:id',isAuthenticated, async (req,res) =>{
     const errors = []
-    var {login,firstname,lastname} = req.body;
+    let {login,firstname,lastname} = req.body;
     const NewUser = new user({login,firstname,lastname})  
     if(login==''){
         errors.push( {text:'Por favor inserte un Login'})
@@ -99,7 +99,7 @@ router.put('/users/edit/:id',isAuthenticated, async (req,res) =>{
 /////////////////// METODO CAMBIAR CONTRASEÑA USUARIOS //////////////////////
 router.put('/users/change_password/:id',isAuthenticated, async (req,res) =>{
     const errors = []
-    var {password,password2} = req.body;
+    let {password,password2} = req.body;
     if(password ==''){
         errors.push( {text:'Por favor inserte una contraseña'})
         res.redirect('/users')
@@ -172,7 +172,7 @@ router.post('/users/root/', async (req,res) => {
 //////////////////////////////////////////////////////////////////
 
 router.get('/api/users', async(req,res) => {           //ASYNC
-    var users = await user.find().lean().sort({login: 'asc'});
+    let users = await user.find().lean().sort({login: 'asc'});
     res.send(users)
 });
 
