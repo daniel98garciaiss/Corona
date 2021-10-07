@@ -48,7 +48,7 @@ async function monitoring_relay_key(_id)
             // compare the value bettwen a opc metodhs specific and relay action
             if(opc.methods[0][action.key] == action.value){   //budget int2 == ON.value
                 if(!action.state){
-                    console.log("ENVIADO ON")
+                    // console.log("ENVIADO ON")
                     send_event(
                             {
                                     "type": "GENERIC_RELAY",
@@ -59,12 +59,12 @@ async function monitoring_relay_key(_id)
                         }
                     var json = relay;
                     json.actions[0].ON.state = true;
-                    console.log("estado modificado a verdadero en ON")
+                    // console.log("estado modificado a verdadero en ON")
                     await Relay.findByIdAndUpdate(_id,json)
             }else{
                     var json = relay;
                     json.actions[0].ON.state = false;
-                    console.log("estado modificado a falso en ON")
+                    // console.log("estado modificado a falso en ON")
                     await Relay.findByIdAndUpdate(_id,json)
             }
     }
@@ -72,7 +72,7 @@ async function monitoring_relay_key(_id)
                 // compare the value bettwen a opc metodhs specific and relay action
                 if(opc.methods[0][action.key] == action.value){   //budget int2 == ON.value
                     if(!action.state){
-                        console.log("ENVIADO OFF")
+                        // console.log("ENVIADO OFF")
                         send_event(
                                 {
                                         "type": "GENERIC_RELAY",
@@ -83,12 +83,12 @@ async function monitoring_relay_key(_id)
                             }
                         var json = relay;
                         json.actions[0].OFF.state = true;
-                        console.log("estado modificado a verdadero en OFF")
+                        // console.log("estado modificado a verdadero en OFF")
                         await Relay.findByIdAndUpdate(_id,json)
                 }else{
                         var json = relay;
                         json.actions[0].OFF.state = false;
-                        console.log("estado modificado a falso en OFF")
+                        // console.log("estado modificado a falso en OFF")
                         await Relay.findByIdAndUpdate(_id,json)
     
                 }

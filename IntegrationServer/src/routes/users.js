@@ -12,6 +12,7 @@ const express = require('express');
 const { connect } = require('mongoose');
 const router = express.Router();
 const user = require('../models/user')
+const service = require('../models/service')
 const passport = require('passport')
 const {isAuthenticated, isNotAuthenticated, isAdmin} = require('../helpers/auth')
 
@@ -161,7 +162,11 @@ router.post('/users/root/', async (req,res) => {
         }
         const NewUser = new user({login,password,firstname,lastname, rol:"admin"})
         NewUser.password = await  NewUser.encryptPassword(password)
-        await NewUser.save();      
+        await NewUser.save(); 
+        
+        const server = new service({ip:"localhost", port:8182, name:"opc"});
+        await server.save(); 
+
         req.flash('success_msg', 'Usuario creado satisfactoriamente!')
         console.log(NewUser);
         res.redirect('/users')
