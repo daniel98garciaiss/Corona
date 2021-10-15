@@ -29,6 +29,7 @@ E131,Burglar Alarm:Perimeter,ALARM
 R131,Burglar Alarm:Perimeter Restored,INFO
 E132,Burglar Alarm:Interior,ALARM
 R132,Burglar Alarm:Interior Restored,INFO
+E339,Module Reset,ALARM
 R359,Comm Fail,ALARM
 E401,Open by user,INFO
 R401,Close by user,INFO

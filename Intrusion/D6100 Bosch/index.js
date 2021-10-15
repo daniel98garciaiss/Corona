@@ -93,7 +93,7 @@ client.on('message', (msg, rinfo) => {
             console.log(json);
             var options = {
             'method': 'POST',
-            'url': 'http://127.0.0.1:3006/api/securos/event',
+            'url': 'http://192.168.1.148:3015/api/securos/event',
             'headers': {
                 'Content-Type': 'application/json'
             },
