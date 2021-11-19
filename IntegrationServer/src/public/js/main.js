@@ -1,6 +1,7 @@
 port = 3003;
 var socket = io.connect(`http://localhost:${port}`, {'forceNew': true});
 
+
 socket.on('newVariables', function (data) {
     // console.log("newVariables");
     // console.log(data);
@@ -78,4 +79,9 @@ async function renderVariables(data){
 function monitorOpc (id){
 
     socket.emit("monitorOpc", id);
+}
+
+
+async function updatePriority (id, priority){
+    socket.emit("updatePriority", id, priority);
 }

@@ -1,6 +1,8 @@
 const Opc = require('../models/opc')
 var intervalRealTime = null;
 
+const {querySecuros, queryDispatch} = require('../public/js/pg');
+
 module.exports = 
     function (io){
         let users = {}
@@ -27,6 +29,19 @@ module.exports =
                     }
                   
                 }, 300)
+            })
+
+
+            socket.on("updatePriority", async (id, priority) => {
+                console.log(id, priority)
+                try {
+                    let done = await queryDispatch(`INSERT INTO "PRIORITY" (id, name) VALUES (${id}, '${priority}')
+                                                    ON CONFLICT(id)
+                                                    DO UPDATE SET NAME = '${priority}'`);
+                    console.log(done);
+                    console.log("priority updated");    
+                } catch (error) {
+                }
             })
         })
 

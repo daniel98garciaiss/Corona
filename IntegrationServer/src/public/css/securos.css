@@ -131,6 +131,18 @@ a {
 	margin-top: -80px;
 }
 
+.btn-primary {
+    background-color: #0d6efd !important;
+}
+
+.dropdown-menu.show {
+    background-color: white !important;
+}
+
+th, td{
+	text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
  	.btn-flotante {
 		font-size: 14px;
