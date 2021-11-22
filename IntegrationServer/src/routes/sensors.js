@@ -28,7 +28,7 @@ setTimeout(securosDriver.start, 30000);
 ////////////////////// VISTA RELAYS ////////////////////////
 router.get('/sensors',isAuthenticated, async (req,res) => { 
     
-    let sensors_wanted_to_show = 30;
+    let sensors_wanted_to_show = 50;
 
 
     //pagina por defecto
@@ -39,7 +39,8 @@ router.get('/sensors',isAuthenticated, async (req,res) => {
     }          //ASYNC
    
     //obtenemos todos los sensor de securos
-    let array_sensors = await querySecuros(`SELECT * FROM "OBJ_GENERIC_SENSOR" 
+    let array_sensors = await querySecuros(`SELECT * FROM "OBJ_SENSOR" 
+                                            ORDER BY id ASC
                                             LIMIT ${sensors_wanted_to_show} OFFSET  (${page} - 1) * ${sensors_wanted_to_show}`);
     // console.log(array_sensors);
 
@@ -47,24 +48,24 @@ router.get('/sensors',isAuthenticated, async (req,res) => {
     //si existe lo almacenamos la prioridad en un array (priority_array)
     //si no existe almacenamos una prioridad " "
     //luego lo pasamos a la vista
-    let array_priority = [];
-    for (let i = 0; i < array_sensors.length; i++) {
-        const sensor_id = array_sensors[i].id;
-        // console.log(sensor_id);
+    // let array_priority = [];
+    // for (let i = 0; i < array_sensors.length; i++) {
+    //     const sensor_id = array_sensors[i].id;
+    //     // console.log(sensor_id);
 
-        let data = await queryDispatch(`SELECT * FROM "PRIORITY" WHERE id = ${sensor_id}`);
+    //     let data = await queryDispatch(`SELECT * FROM "PRIORITY" WHERE id = ${sensor_id}`);
 
-        // console.log(data);
-            if(data.length > 0){
-                array_sensors[i].priority =  data[0].name;
-            }else{
-                array_sensors[i].priority =  " ";
-            }
-    }
+    //     // console.log(data);
+    //         if(data.length > 0){
+    //             array_sensors[i].priority =  data[0].name;
+    //         }else{
+    //             array_sensors[i].priority =  " ";
+    //         }
+    // }
     // console.log(array_priority)
 
     //-------------------------------paginacion------------------------------- 
-    let sensors_quantiy = await querySecuros(`SELECT COUNT(*) FROM "OBJ_GENERIC_SENSOR"`);
+    let sensors_quantiy = await querySecuros(`SELECT COUNT(*) FROM "OBJ_SENSOR"`);
     // console.log(sensors_quantiy)
     let array_paginator_pages = [];
     for (let i = 0; i < sensors_quantiy[0].count/sensors_wanted_to_show; i++) {

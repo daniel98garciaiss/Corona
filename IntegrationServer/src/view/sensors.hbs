@@ -11,7 +11,7 @@
   <table class="table table-striped text-light">
     <thead>
       <tr>
-        <th scope="col">#</th>
+        {{!-- <th scope="col">#</th> --}}
         <th scope="col">ID</th>
         <th scope="col">Nombre</th>
         <th scope="col">Prioridad</th>
@@ -22,16 +22,16 @@
       {{!-- <h1 class="text-light">{{array_priority.0.name}}</h1> --}}
       
       <tr class="table table-striped text-light ">
-        <th class="pt-3" scope="row">{{@index}}</th>
+        {{!-- <th class="pt-3" scope="row">{{@index}}</th> --}}
         <td class="pt-3">{{id}}</td>
         <td class="pt-3">{{name}}</td>
         
         <td class="w-25">
           <select required class="sensor-select form-select mb-1 "aria-label="Default select example" name="server_on">
             <option selected > Seleccione una prioridad</option>
-            <option{{#ifCond priority "==" "Alta" }} selected {{/ifCond}} class="sensor-option" id={{id}} value="Alta">Alta</option>
-            <option{{#ifCond priority "==" "Media" }} selected {{/ifCond}} class="sensor-option" id={{id}} value="Media">Media</option>
-            <option{{#ifCond priority "==" "Baja" }} selected {{/ifCond}} class="sensor-option" id={{id}} value="Baja">Baja</option>
+            <option{{#ifCond tp_name "==" "Alta" }} selected {{/ifCond}} class="sensor-option" id={{id}} value="Alta">Alta</option>
+            <option{{#ifCond tp_name "==" "Media" }} selected {{/ifCond}} class="sensor-option" id={{id}} value="Media">Media</option>
+            <option{{#ifCond tp_name "==" "Baja" }} selected {{/ifCond}} class="sensor-option" id={{id}} value="Baja">Baja</option>
           </select>
         </td>
       </tr>
@@ -51,11 +51,23 @@
 </div>
 
 <script>
+ /* 
   let sensor_select = document.querySelector(".sensor-select");
 
     sensor_select.addEventListener('change', (event) => {
+      console.log("entro")
         let priority_id = sensor_select.options[sensor_select.selectedIndex].id;                         // value of the selected element
         let priority = sensor_select.options[sensor_select.selectedIndex].value;
         updatePriority(priority_id, priority);
-    });
+    });*/
+
+  let sensors_select = document.querySelectorAll(".sensor-select");
+
+    sensors_select.forEach(item => {
+      item.addEventListener('change', event => {
+        let priority_id = item.options[item.selectedIndex].id;                         // value of the selected element
+        let priority = item.options[item.selectedIndex].value;
+        updatePriority(priority_id, priority);
+      })
+    })
 </script>

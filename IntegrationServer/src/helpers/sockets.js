@@ -35,10 +35,11 @@ module.exports =
             socket.on("updatePriority", async (id, priority) => {
                 console.log(id, priority)
                 try {
-                    let done = await queryDispatch(`INSERT INTO "PRIORITY" (id, name) VALUES (${id}, '${priority}')
-                                                    ON CONFLICT(id)
-                                                    DO UPDATE SET NAME = '${priority}'`);
-                    console.log(done);
+                    // let done = await querySecuros(`INSERT INTO "OBJ_SENSOR" (id, tp_name) VALUES (${id}, '${priority}')
+                    //                                 ON CONFLICT(id)
+                    //                                 DO UPDATE SET NAME = '${priority}'`);
+                                                    
+                    let done = await querySecuros(`UPDATE "OBJ_SENSOR" SET tp_name = '${priority}' WHERE id = '${id}'`);
                     console.log("priority updated");    
                 } catch (error) {
                 }
