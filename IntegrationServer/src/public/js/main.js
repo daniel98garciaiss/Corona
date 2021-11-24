@@ -2,13 +2,7 @@ port = 3003;
 var socket = io.connect(`http://localhost:${port}`, {'forceNew': true});
 
 
-socket.on('newVariables', function (data) {
-    // console.log("newVariables");
-    // console.log(data);
-    if(data){
-        renderVariables(data);
-    }
-});
+
  
 socket.on('modified-resourse', function (data) {
     // console.log(data);
@@ -51,7 +45,13 @@ async function renderResources(data){
 }
 
 
-
+socket.on('renderVariables', function (data) {
+    // console.log("newVariables");
+    // console.log(data);
+    if(data){
+        renderVariables(data);
+    }
+});
 
 
 async function renderVariables(data){
@@ -84,4 +84,46 @@ function monitorOpc (id){
 
 async function updatePriority (id, priority){
     socket.emit("updatePriority", id, priority);
+}
+
+
+// --> this go to sockets.js
+async function sensorsSearch(value){
+    socket.emit("sensorsSearch", value);
+}
+
+// <--- this come back from sockets.js
+socket.on('renderSensors', function (sensors) {
+    if(sensors){
+        renderSensors(sensors);
+    }
+});
+
+async function renderSensors(sensors){
+    // console.log(sensors);
+    var newHtml = await sensors.map((sensors, index) =>{
+          return(
+            `
+            <tr class="table table-striped text-light ">
+                <td class="pt-3">${sensors.id}</td>
+                <td class="pt-3">${sensors.name}</td>
+                
+                <td class="w-25">
+                <select required class="sensor-select form-select mb-1 "aria-label="Default select example" name="server_on">
+                    <option selected > Seleccione una prioridad</option>
+                    <option ${sensors.tp_name === "Alta" ? 'selected' : ''} class="sensor-option" id=${sensors.id} value="Alta">Alta</option>
+                    <option ${sensors.tp_name === "Media" ? 'selected' : ''} class="sensor-option" id=${sensors.id} value="Media">Media</option>
+                    <option ${sensors.tp_name === "Baja" ? 'selected' : ''} class="sensor-option" id=${sensors.id} value="Baja">Baja</option>
+                </select>
+                </td>
+            </tr>
+            `
+          )
+    }).join(" ");
+        // console.log(newHtml);
+
+        if(document.getElementById('tbody')){
+            document.getElementById('tbody').innerHTML= newHtml;
+        }
+        handleEventSearch();
 }

@@ -7,6 +7,7 @@
     </h1>
   </div>
 </div>
+    <input type="text" class="sensor-search mt-2 w-25" placeholder="Filtrar por ID.." value=""/>
 <div class="row mb-4 rounded-3" id="sensors_container">
   <table class="table table-striped text-light">
     <thead>
@@ -17,7 +18,7 @@
         <th scope="col">Prioridad</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="tbody">
       {{#each array_sensors}}
       {{!-- <h1 class="text-light">{{array_priority.0.name}}</h1> --}}
       
@@ -51,15 +52,8 @@
 </div>
 
 <script>
- /* 
-  let sensor_select = document.querySelector(".sensor-select");
-
-    sensor_select.addEventListener('change', (event) => {
-      console.log("entro")
-        let priority_id = sensor_select.options[sensor_select.selectedIndex].id;                         // value of the selected element
-        let priority = sensor_select.options[sensor_select.selectedIndex].value;
-        updatePriority(priority_id, priority);
-    });*/
+  
+function handleEventSearch(){
 
   let sensors_select = document.querySelectorAll(".sensor-select");
 
@@ -70,4 +64,16 @@
         updatePriority(priority_id, priority);
       })
     })
+}
+
+handleEventSearch();
+
+    let sensors_search = document.querySelector(".sensor-search");
+
+    sensors_search.addEventListener('input', event => {
+        let word_search = event.target.value;  
+        /*console.log(word_search);*/
+        sensorsSearch(word_search);
+      })
+  
 </script>

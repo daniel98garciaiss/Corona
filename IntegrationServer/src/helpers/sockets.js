@@ -21,7 +21,7 @@ module.exports =
 
                         if(opc.methods){
                             let methods = opc.methods[0];
-                            socket.emit("newVariables",{methods});
+                            socket.emit("renderVariables",{methods});
                         }
                         
                     } catch (error) {
@@ -35,15 +35,28 @@ module.exports =
             socket.on("updatePriority", async (id, priority) => {
                 console.log(id, priority)
                 try {
-                    // let done = await querySecuros(`INSERT INTO "OBJ_SENSOR" (id, tp_name) VALUES (${id}, '${priority}')
-                    //                                 ON CONFLICT(id)
-                    //                                 DO UPDATE SET NAME = '${priority}'`);
-                                                    
-                    let done = await querySecuros(`UPDATE "OBJ_SENSOR" SET tp_name = '${priority}' WHERE id = '${id}'`);
+                  
+                    await querySecuros(`UPDATE "OBJ_SENSOR" SET tp_name = '${priority}' WHERE id = '${id}'`);
                     console.log("priority updated");    
                 } catch (error) {
+                    console.log(error)
+
                 }
             })
+
+            socket.on("sensorsSearch", async (value) => {
+                // console.log(value)
+                try {
+                    let result = await querySecuros(`SELECT * FROM "OBJ_SENSOR" WHERE id LIKE '${value}%'`);
+                    console.log(result);    
+                    console.log("sensor searched");    
+                    socket.emit("renderSensors", result);
+                } catch (error) {
+                    console.log(error)
+
+                }
+            })
+
         })
 
 

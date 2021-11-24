@@ -8,9 +8,12 @@
  *SecurOS 10.9
  *
 */ 
+
 const http = require('http')
 const express = require('express')
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
 const exphbs = require('express-handlebars')
 const path = require('path')
