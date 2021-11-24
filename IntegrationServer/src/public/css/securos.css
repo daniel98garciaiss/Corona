@@ -143,6 +143,20 @@ th, td{
 	text-align: center;
 }
 
+.succes_message{
+	width: 100%;
+	position: fixed;
+	bottom: -80px;
+	left:0;
+	transition: all 0.3s ease-out;
+	padding: 0 10%;
+	box-sizing: border-box;
+}
+
+.fade-in{
+	bottom: 0px;
+}
+
 @media only screen and (max-width: 600px) {
  	.btn-flotante {
 		font-size: 14px;

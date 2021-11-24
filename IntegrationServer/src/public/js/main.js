@@ -81,10 +81,21 @@ function monitorOpc (id){
     socket.emit("monitorOpc", id);
 }
 
-
+// --> this go to sockets.js
 async function updatePriority (id, priority){
     socket.emit("updatePriority", id, priority);
+
 }
+
+// <--- this come back from sockets.js
+socket.on('succesMessage', function (sensors) {
+    
+   document.getElementById('succes_message').className += " fade-in";
+
+   setTimeout(() => {
+    document.getElementById('succes_message').className = "succes_message";
+   },1800)
+});
 
 
 // --> this go to sockets.js

@@ -1,7 +1,7 @@
 const Opc = require('../models/opc')
 var intervalRealTime = null;
 
-const {querySecuros, queryDispatch} = require('../public/js/pg');
+const {querySecuros} = require('../public/js/pg');
 
 module.exports = 
     function (io){
@@ -38,6 +38,7 @@ module.exports =
                   
                     await querySecuros(`UPDATE "OBJ_SENSOR" SET tp_name = '${priority}' WHERE id = '${id}'`);
                     console.log("priority updated");    
+                    socket.emit("succesMessage");
                 } catch (error) {
                     console.log(error)
 
@@ -47,7 +48,9 @@ module.exports =
             socket.on("sensorsSearch", async (value) => {
                 // console.log(value)
                 try {
-                    let result = await querySecuros(`SELECT * FROM "OBJ_SENSOR" WHERE id LIKE '${value}%'`);
+                    let result = await querySecuros(`SELECT * FROM "OBJ_SENSOR"
+                                                     WHERE id LIKE '${value}%'
+                                                     ORDER BY id ASC`);
                     console.log(result);    
                     console.log("sensor searched");    
                     socket.emit("renderSensors", result);
