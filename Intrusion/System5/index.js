@@ -14,6 +14,10 @@
 var net = require('net');
 const csv = require('csvtojson')
 const fs = require('fs');
+const request = require('request');
+
+var logname 				= "System5 Intrusion Integration";
+var logs 		= require('../../logsset/logs');
 
 var messages;
 
@@ -26,6 +30,7 @@ setInterval(function(){
   var buff = Buffer.from([0x06]);
   client.write(buff);
   console.log("Hearthbeat");
+  logs.Write("Hearthbeat","DEBUG",logname);
 }, 20000);
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,8 +46,9 @@ read_csv(function(){
 ////////////////////////Abrir el cliente para ecuchar al servidor///////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 var client = new net.Socket();
-client.connect(1027, '192.168.1.109', function() {
+client.connect(1027, '172.23.254.44', function() {
     console.log('Connected');
+    logs.Write("Connected","INFO",logname);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +58,7 @@ client.connect(1027, '192.168.1.109', function() {
 client.on('data', function(data) {
     var data0 = data.toString();
     console.log('Received: ' + data0);
+    logs.Write("Received: "+data0,"DEBUG",logname);
   try
   {
     var pattern = /((\w|\s)*)-*?/ig;
@@ -64,7 +71,8 @@ client.on('data', function(data) {
     var message = data0[20];
     var complement = data0[22];
     console.log(date,receptor,line,abonado,message,complement);
-    var [event,type] = find_message(event_code.toString());
+    logs.Write(date+"-"+receptor+"-"+line+"-"+abonado+"-"+message+"-"+complement,"DEBUG",logname);
+    var [event,type] = find_message(message.toString());
             console.log(event,type);
             if(event==undefined)
                 event="Evento no registrado";
@@ -72,27 +80,28 @@ client.on('data', function(data) {
                 type="INFO";
 
             json = {
-                "receiver":receiver,
-                "panel":acount,
-                "cid":cid,
-                "event_code":event_code,
+                "receiver":"01",
+                "panel":abonado,
+                "event_code":message,
                 "comment":event,
                 "event":type,
-                "partition":partition,
-                "sensor":contact
+                "partition":abonado+"-"+receptor,
+                "sensor":abonado+"-"+receptor+"-"+line
             }
             console.log(json);
+            logs.Write("Json: "+JSON.stringify(json),"DEBUG",logname);
             sendSecurOS(json);
   } 
   catch(e)
   {
     console.log(e);
+    logs.Write("ERROR: "+e,"ERROR",logname);
   } 
   //Enviar ACK
   var buff = Buffer.from([0x06]);
   client.write(buff);
   console.log("ACK");
-  
+  logs.Write("ACK","DEBUG",logname);
     //client.destroy(); // kill client after server's response
 });
 
@@ -141,15 +150,24 @@ function sendSecurOS(json)
 {
     var options = {
         'method': 'POST',
-        'url': 'http://127.0.0.1:3007/api/securos/event',
+        'url': 'http://127.0.0.1:3018/api/securos/event',
         'headers': {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(json) //JSON.stringify({"receiver":"1","panel":"1752","cid":"18","event_code":"E401","comment":"not found","event":"ALARM","partition":"49","sensor":"1","type":"SENSOR","typeID":"1"})
 
         };
-        request(options, function(error, response) {
-            if (error) throw new Error(error);
-                console.log(response.body);
-        });
+        try{
+            request(options, function(error, response) {
+                if (error) throw new Error(error);
+                    console.log(response.body);
+                    logs.Write("Response: "+response.body,"DEBUG",logname);
+
+            });
+        }
+        catch{
+            console.log("Error: There was a trouble sending events to SecurOS")
+            logs.Write("Error: There was a trouble sending events to SecurOS","DEBUG",logname);
+        }
+        
 }
