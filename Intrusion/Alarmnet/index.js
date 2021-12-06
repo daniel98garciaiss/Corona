@@ -8,13 +8,12 @@
  *SecurOS 10.9
  *
 */
-
 var net = require('net');
 const csv = require('csvtojson');
 const fs = require('fs');
 var request = require('request');
 
-var logname 				= "Alarmnet Integration";
+var logname 				= "Alarmnet Intrusion Integration";
 var logs 		= require('../../logsset/logs');
 
 var messages;
@@ -46,6 +45,7 @@ client.on('data', function(data) {
     {
       var data1 = data0.split(" ");
       console.log(data1);
+      logs.Write('Data1: ' + data1,"TRACE",logname)
       switch(data1.length)
       {
         case 5:
@@ -54,9 +54,10 @@ client.on('data', function(data) {
             var acount = data1[1];
             var message1 = data1[2];
             var message2 = data1[3];
-            var status = data[4];
+            var status = data1[4];
             var[event,type] = find_message(message1.toString()+message2.toString());
             console.log(event,type);
+            logs.Write('Event,Type: ' + event + type,"DEBUG",logname)
             if(event==undefined)
                 event="Evento no registrado";
             if(type==undefined)
@@ -72,9 +73,10 @@ client.on('data', function(data) {
             };
 
             console.log(json);
+            logs.Write('Json: ' + json,"DEBUG",logname)
             var options = {
             'method': 'POST',
-            'url': 'http://192.168.1.148:3015/api/securos/event',
+            'url': 'http://127.0.0.1:3017/api/securos/event',
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -92,7 +94,7 @@ client.on('data', function(data) {
             var acount = data1[1];
             var cid = data1[2];
             var event_code = data1[3];
-            var partition = data[4];
+            var partition = data1[4];
             var contact = data1[5];
 
             var [event,type] = find_message(event_code.toString());
@@ -101,21 +103,43 @@ client.on('data', function(data) {
                 event="Evento no registrado";
             if(type==undefined)
                 type="INFO";
-
-            json = {
-                "receiver":receiver,
-                "panel":acount,
-                "cid":cid,
-                "event_code":event_code,
-                "comment":event,
-                "event":type,
-                "partition":partition,
-                "sensor":contact
+/*
+{
+  "event_code": "E401", 
+  "comment": "not found", 
+  "event":"ALARM", 
+  "type": "GENERIC_USER", 	
+  "typeID": "1"
+}
+*/
+            if(contact.includes("C"))
+            {
+                json = {
+                    "event_code": event_code, 
+                    "comment": event, 
+                    "event": type, 
+                    "type": "GENERIC_USER", 	
+                    "typeID": acount+"-"+partition+"-"+contact
+                }
             }
-            console.log(json);
+            else if(contact.includes("U"))
+            {
+                json = {
+                    "receiver":receiver,
+                    "panel":acount,
+                    "cid":cid,
+                    "event_code":event_code,
+                    "comment":event,
+                    "event":type,
+                    "partition":acount+"-"+partition,
+                    "sensor":acount+"-"+partition+"-"+contact
+                }
+            }
+            
+            console.log(JSON.stringify(json));
             var options = {
             'method': 'POST',
-            'url': 'http://192.168.1.148:3015/api/securos/event',
+            'url': 'http://127.0.0.1:3017/api/securos/event',
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -135,10 +159,18 @@ client.on('data', function(data) {
             logs.Write("NAK send","TRACE",logname);
         break;
     }
-    request(options, function(error, response) {
-        if (error) throw new Error(error);
-            console.log(response.body);
-    });
+    try{
+        request(options, function(error, response) {
+            if (error) throw new Error(error);
+                console.log(response.body);
+                logs.Write("Error: "+response.body,"ERROR",logname);
+                logs.Write("Error: "+error,"ERROR",logname);
+        });
+    }
+    catch
+    {
+        logs.Write("Error: There was a trouble sending events to SecurOS","ERROR",logname);
+    }
     
     }  
     //client.destroy(); // kill client after server's response
@@ -146,6 +178,7 @@ client.on('data', function(data) {
 
 client.on('close', function() {
     console.log('Connection closed');
+    logs.Write('COnnection closed: ',"INFO",logname)
 });
 
 /*read_csv(function(){
@@ -160,6 +193,7 @@ function read_csv(callback)
     .fromFile(csvFilePath)
     .then((jsonObj)=>{
         console.log(jsonObj);
+        logs.Write(jsonObj,"TRACE",logname)
         messages=JSON.parse(JSON.stringify(jsonObj));
         callback(messages);
     })
@@ -167,6 +201,7 @@ function read_csv(callback)
 function find_message(message_to_find)
 {
     console.log("finding: "+message_to_find +"...")
+    logs.Write("finding: "+message_to_find +"...","TRACE",logname)
     var found=0;
     var type=0;
     for(var i = 0 ; i<messages.length;i++)
@@ -208,6 +243,7 @@ function process_data(data)
   catch(e)
   {
     console.log(e);
+    logs.Write("Error: "+e,"ERROR",logname);
   }
 }
 
