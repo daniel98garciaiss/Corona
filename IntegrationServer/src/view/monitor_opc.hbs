@@ -25,15 +25,15 @@
   <tbody id="resource_variables">
       
     {{#each opc.methods}}
-    {{this.length}}
-    {{#each this}}
-    <tr>
-      <th scope="row">{{@index}}</th>
-      <td> {{@key}}</td>
-      <td>{{this}}</td>
-    </tr>
+      {{this.length}}
+      {{#each this}}
+      <tr>
+        <th scope="row">{{@index}}</th>
+        <td> {{@key}}</td>
+        <td>{{this}}</td>
+      </tr>
+      {{/each}}
     {{/each}}
-        {{/each}}
   </tbody>
 </table>
 </div>

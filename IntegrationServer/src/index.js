@@ -8,9 +8,12 @@
  *SecurOS 10.9
  *
 */ 
+
 const http = require('http')
 const express = require('express')
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
 const exphbs = require('express-handlebars')
 const path = require('path')
@@ -73,6 +76,7 @@ app.use((req,res,next) =>{
 //routes
 app.use(require('./routes/index'))
 app.use(require('./routes/users'))
+app.use(require('./routes/sensors'))
 app.use(require('./routes/relays'))
 app.use(require('./routes/servicesConfig'))
 
