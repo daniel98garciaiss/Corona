@@ -5,7 +5,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_OPC_SERVER]
@@ -15,7 +15,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_MODBUS_MODULE]
@@ -25,7 +25,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_DOOR]
@@ -35,7 +35,7 @@ parent_id, CHAR, 16
 tp_door_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_INPUT]
@@ -45,7 +45,7 @@ parent_id, CHAR, 16
 tp_input_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_OUTPUT]
@@ -55,7 +55,7 @@ parent_id, CHAR, 16
 tp_output_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_RELAY]
@@ -65,7 +65,7 @@ parent_id, CHAR, 16
 tp_relay_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_LIGHT]
@@ -75,7 +75,7 @@ parent_id, CHAR, 16
 tp_light_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_SENSOR]
@@ -85,7 +85,7 @@ parent_id, CHAR, 16
 tp_sensor_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_SMOKE]
@@ -95,7 +95,7 @@ parent_id, CHAR, 16
 tp_smoke_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_FIRE]
@@ -105,7 +105,7 @@ parent_id, CHAR, 16
 tp_fire_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_INTRU]
@@ -115,7 +115,7 @@ parent_id, CHAR, 16
 tp_intrusion_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_AREA]
@@ -125,7 +125,7 @@ parent_id, CHAR, 16
 tp_intrusion_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 
@@ -136,7 +136,7 @@ parent_id, CHAR, 16
 tp_door_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_INPUT_MO]
@@ -146,7 +146,7 @@ parent_id, CHAR, 16
 tp_input_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_OUT_MO]
@@ -156,7 +156,7 @@ parent_id, CHAR, 16
 tp_output_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_RELAY_MO]
@@ -166,7 +166,7 @@ parent_id, CHAR, 16
 tp_relay_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_LIGHT_MO]
@@ -176,7 +176,7 @@ parent_id, CHAR, 16
 tp_light_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_SEN_MO]
@@ -186,7 +186,7 @@ parent_id, CHAR, 16
 tp_sensor_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_SMOKE_MO]
@@ -196,7 +196,7 @@ parent_id, CHAR, 16
 tp_smoke_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_FIRE_MO]
@@ -206,7 +206,7 @@ parent_id, CHAR, 16
 tp_fire_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_INTRU_MO]
@@ -216,7 +216,7 @@ parent_id, CHAR, 16
 tp_intrusion_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_AREA_MO]
@@ -226,7 +226,7 @@ parent_id, CHAR, 16
 tp_intrusion_detector_name, CHAR, 50
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 	
 [OBJ_RECEIVER]
@@ -236,7 +236,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_PANEL]
@@ -246,7 +246,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_PARTITION]
@@ -256,7 +256,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_SENSOR]
@@ -266,7 +266,7 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
 
 [OBJ_GENERIC_USER]
@@ -276,5 +276,5 @@ parent_id, CHAR, 16
 tp_name, CHAR, 100
 tp_guid, CHAR, 100
 camera_name, CHAR, 80
-camera_id, CHAR, 5
+camera_id, CHAR, 30
 flags, INTEGER
