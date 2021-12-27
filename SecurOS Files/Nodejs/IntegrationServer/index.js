@@ -4,7 +4,9 @@ const app = express();
 const server = http.createServer(app);
 
 //settings
-port = 3015;
+const configuration = require('./routes/config.js');
+const securosNodePort = configuration.securosNodePort;
+port = securosNodePort;
 
 //middlewares
 app.use(express.urlencoded({extended:false}))

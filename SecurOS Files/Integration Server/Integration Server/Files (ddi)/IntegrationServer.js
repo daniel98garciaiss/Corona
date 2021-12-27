@@ -19,21 +19,21 @@ function Update(o)
                 case "DISCONNECTED":
                     suffix = "_DISCONNECTED"
                     break
-                case "ARMED":
-                case "ARMED_EARLY":
-                case "FORCED_ARMING":
-                case "LATE_TO_ARM":
+                case "AREA_ARMED":
+                case "AREA_ARMED_EARLY":
+                case "AREA_FORCED_ARMING":
+                case "AREA_LATE_TO_ARM":
                     suffix = "_ARMED"
                     break
-                case "DISARMED":
-                case "DISARMED_EARLY":
-                case "LATE_TO_DISARM":
+                case "AREA_DISARMED":
+                case "AREA_DISARMED_EARLY":
+                case "AREA_LATE_TO_DISARM":
                     suffix = "_DISARMED"
                     o.blinking = true
                     break
-                case "WALK_TEST_STARTED":
-                case "WALK_TEST_ENDED":
-                 suffix = "_WALK_TEST_STARTED"
+                case "AREA_WALK_TEST_STARTED":
+                case "AREA_WALK_TEST_ENDED":
+                 suffix = "AREA__WALK_TEST_STARTED"
                  o.blinking = true
                     break
                 default:

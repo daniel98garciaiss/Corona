@@ -268,3 +268,13 @@ tp_guid, CHAR, 100
 camera_name, CHAR, 80
 camera_id, CHAR, 5
 flags, INTEGER
+
+[OBJ_GENERIC_USER]
+id, CHAR, 16
+name, CHAR, 60
+parent_id, CHAR, 16
+tp_name, CHAR, 100
+tp_guid, CHAR, 100
+camera_name, CHAR, 80
+camera_id, CHAR, 5
+flags, INTEGER

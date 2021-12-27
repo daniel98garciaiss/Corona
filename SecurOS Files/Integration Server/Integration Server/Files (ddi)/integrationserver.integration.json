@@ -83,10 +83,12 @@
                                                 "children": 
                                                 [{
                                                         "type": "PARTITION",
-                                                        "children": 
-                                                        [{
-                                                                "type": "SENSOR"
-                                                        }]
+                                                        "children": [{
+                                                                        "type": "SENSOR"
+                                                                     },
+                                                                     {
+                                                                        "type": "GENERIC_USER"
+                                                                     }]
 
                                                 }]
                                         }]

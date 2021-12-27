@@ -7,6 +7,10 @@ var Regex = require("regex");
 const { triggerAsyncId } = require('async_hooks');
 var TreeArray =[];
 
+const configuration = require('./config.js');
+
+const ipReact = configuration.ipReact;
+const ReactPort = configuration.ReactPort;
 
 function regularExpression(text, regexp){
     var re = new RegExp(regexp);
@@ -34,7 +38,7 @@ router.post('/api/securos/event', (req,res) =>{
     var parsedJson = JSON.parse(json);
     var SecurosComment = '', SecurosEvent  = '', SecurosRecType  = '',
      SecurosRecId  = '', SecurosParType  = '', SecurosParId  = '', SecurosPanelType  = '', SecurosPanelId  = '',
-     SecurosSenType = '', SecurosSenId = '', type = '' , id = '' , Event = '' , comment = '' ;
+     SecurosSenType = '', SecurosSenId = '', SecurosUserType = '', SecurosUserId = '', type = '' , id = '' , Event = '' , comment = '' ;
     for (var keys in parsedJson) {
 
             //console.log( keys+": "+ parsedJson[keys]);
@@ -282,7 +286,7 @@ function eventHandlerReact(e){
     console.log(JSON.stringify(e));
     var options = {
           'method': 'POST',
-          'url': 'http://127.0.0.1:3035/api/securos/ThirdPartyReact',
+          'url': 'http://'+ipReact+':'+ReactPort+'/api/securos/ThirdPartyReact',
           'headers': {
             'Content-Type': 'application/json'
           },         

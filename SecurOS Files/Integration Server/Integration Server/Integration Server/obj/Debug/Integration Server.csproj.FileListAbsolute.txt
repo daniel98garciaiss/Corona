@@ -29,3 +29,13 @@ C:\Users\Alejandra Aguirre\Documents\IntegrationServer\Integration Server Final\
 C:\Users\Alejandra Aguirre\Documents\IntegrationServer\Integration Server Final\Integration Server\Integration Server\obj\Debug\Integration Server.csproj.CopyComplete
 C:\Users\Alejandra Aguirre\Documents\IntegrationServer\Integration Server Final\Integration Server\Integration Server\obj\Debug\Integration Server.exe
 C:\Users\Alejandra Aguirre\Documents\IntegrationServer\Integration Server Final\Integration Server\Integration Server\obj\Debug\Integration Server.pdb
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\bin\Debug\Integration Server.exe.config
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\bin\Debug\Integration Server.exe
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\bin\Debug\Integration Server.pdb
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration Server.csprojAssemblyReference.cache
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration_Server.ProjectInstaller.resources
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration Server.csproj.GenerateResource.cache
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration Server.csproj.CoreCompileInputs.cache
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration Server.csproj.CopyComplete
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration Server.exe
+D:\github\Corona\SecurOS Files\Integration Server\Integration Server\Integration Server\obj\Debug\Integration Server.pdb
